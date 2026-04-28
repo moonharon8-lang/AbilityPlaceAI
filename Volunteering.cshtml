@@ -1,0 +1,1094 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>AbilityPlace — Volunteering</title>
+<link rel="stylesheet" href="~/css/global.css"/>
+<style>
+
+/* ══════════════════════════════════════
+   PAGE HERO
+══════════════════════════════════════ */
+.page-hero {
+  padding-top: var(--nav-h);
+  background: var(--sky);
+  position: relative;
+  overflow: hidden;
+  min-height: 280px;
+  display: flex;
+  align-items: flex-end;
+}
+.page-hero-birds {
+  position: absolute;
+  inset: 0;
+            background-image: url('/image/ability6.png');
+  background-size: 50%;
+  background-repeat: no-repeat;
+  background-position: right 5% center;
+  opacity: .65;
+  pointer-events: none;
+}
+.page-hero-wave {
+  position: absolute;
+  bottom: -1px; left: 0; right: 0;
+  line-height: 0; z-index: 2;
+}
+.page-hero-content {
+  position: relative;
+  z-index: 3;
+  padding: 40px 60px 68px;
+}
+.page-hero-content h1 {
+  font-family: 'Playfair Display', serif;
+  font-size: clamp(2rem, 4vw, 3rem);
+  font-weight: 900;
+  letter-spacing: -.025em;
+  color: var(--ink);
+  margin-bottom: 8px;
+}
+.page-hero-content p {
+  font-size: 1rem;
+  color: var(--ink-3);
+  line-height: 1.7;
+  max-width: 520px;
+}
+
+/* ══════════════════════════════════════
+   IMPACT STRIP
+══════════════════════════════════════ */
+.impact-strip {
+  background: var(--ink);
+  padding: 32px 60px;
+  display: flex;
+  align-items: center;
+  justify-content: space-around;
+  gap: 20px;
+  flex-wrap: wrap;
+}
+.impact-item { text-align: center; }
+.impact-n {
+  font-family: 'Playfair Display', serif;
+  font-size: 2.2rem;
+  font-weight: 900;
+  color: var(--peach);
+  display: block;
+  line-height: 1;
+}
+.impact-l {
+  font-size: .8rem;
+  color: rgba(255,255,255,.5);
+  margin-top: 6px;
+  font-weight: 500;
+}
+
+/* ══════════════════════════════════════
+   MAIN CONTENT
+══════════════════════════════════════ */
+.vol-page {
+  background: var(--off-white);
+  padding: 60px 60px 80px;
+}
+.vol-inner {
+  max-width: 1100px;
+  margin: 0 auto;
+}
+
+/* ══════════════════════════════════════
+   SECTION HEADERS
+══════════════════════════════════════ */
+.vol-section-title {
+  font-family: 'Playfair Display', serif;
+  font-size: 1.7rem;
+  font-weight: 900;
+  color: var(--ink);
+  margin-bottom: 6px;
+  letter-spacing: -.02em;
+}
+.vol-section-sub {
+  font-size: .9rem;
+  color: var(--ink-4);
+  margin-bottom: 28px;
+  line-height: 1.6;
+}
+
+/* ══════════════════════════════════════
+   ROLES FILTER
+══════════════════════════════════════ */
+.roles-filter {
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+  margin-bottom: 28px;
+}
+.rfchip {
+  padding: 8px 18px;
+  border-radius: var(--radius-pill);
+  border: 1.5px solid #E2E8F0;
+  background: #fff;
+  font-size: .82rem;
+  font-weight: 600;
+  color: var(--ink-3);
+  cursor: pointer;
+  transition: all .2s;
+  white-space: nowrap;
+}
+.rfchip:hover { border-color: var(--mint-d); color: var(--ink); }
+.rfchip.active {
+  background: var(--peach);
+  border-color: var(--peach-d);
+  color: var(--ink);
+}
+
+/* ══════════════════════════════════════
+   ROLE CARDS
+══════════════════════════════════════ */
+.roles-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 18px;
+  margin-bottom: 72px;
+}
+.role-card {
+  background: #fff;
+  border-radius: var(--radius);
+  border: 1.5px solid rgba(0,0,0,.07);
+  overflow: hidden;
+  transition: all .25s;
+  display: flex;
+  flex-direction: column;
+}
+.role-card:hover {
+  transform: translateY(-5px);
+  box-shadow: var(--shadow-lg);
+  border-color: transparent;
+}
+.role-card-top {
+  padding: 24px 22px 18px;
+  display: flex;
+  align-items: flex-start;
+  gap: 14px;
+}
+.role-icon {
+  width: 52px; height: 52px;
+  border-radius: 16px;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 1.6rem;
+  flex-shrink: 0;
+}
+.role-card-info { flex: 1; }
+.role-card-info h3 {
+  font-weight: 700;
+  font-size: .97rem;
+  color: var(--ink);
+  margin-bottom: 4px;
+}
+.role-badges {
+  display: flex;
+  gap: 6px;
+  flex-wrap: wrap;
+  margin-bottom: 6px;
+}
+.urgency-badge {
+  padding: 2px 9px;
+  border-radius: var(--radius-pill);
+  font-size: .68rem;
+  font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: .04em;
+}
+.mode-badge {
+  padding: 2px 9px;
+  border-radius: var(--radius-pill);
+  font-size: .68rem;
+  font-weight: 600;
+  background: var(--sky);
+  color: var(--mint-dd);
+}
+.role-desc {
+  font-size: .82rem;
+  color: var(--ink-3);
+  line-height: 1.65;
+  padding: 0 22px 16px;
+  flex: 1;
+}
+.role-details {
+  padding: 0 22px 16px;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  font-size: .76rem;
+  color: var(--ink-4);
+}
+.role-details span { display: flex; align-items: center; gap: 4px; }
+.role-skills {
+  padding: 0 22px 18px;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+}
+.skill-tag {
+  padding: 3px 10px;
+  border-radius: var(--radius-pill);
+  background: var(--sky);
+  font-size: .7rem;
+  font-weight: 700;
+  color: var(--mint-dd);
+}
+.role-footer {
+  padding: 16px 22px;
+  border-top: 1px solid rgba(0,0,0,.06);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+}
+.spots-left {
+  font-size: .78rem;
+  font-weight: 700;
+  color: var(--ink-3);
+}
+.spots-left span { color: var(--peach-d); }
+.apply-btn {
+  padding: 9px 20px;
+  border-radius: var(--radius-pill);
+  border: none;
+  background: var(--peach);
+  color: var(--ink);
+  font-weight: 700;
+  font-size: .82rem;
+  cursor: pointer;
+  transition: all .2s;
+}
+.apply-btn:hover { background: var(--peach-d); color: #fff; }
+.apply-btn:disabled {
+  background: #E2E8F0;
+  color: var(--ink-5);
+  cursor: not-allowed;
+}
+
+/* ══════════════════════════════════════
+   WHY VOLUNTEER SECTION
+══════════════════════════════════════ */
+.why-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 16px;
+  margin-bottom: 72px;
+}
+.why-card {
+  background: #fff;
+  border-radius: var(--radius);
+  padding: 28px 22px;
+  box-shadow: var(--shadow);
+  text-align: center;
+}
+.why-icon { font-size: 2.2rem; margin-bottom: 14px; display: block; }
+.why-card h3 { font-weight: 700; font-size: .95rem; margin-bottom: 8px; }
+.why-card p { font-size: .82rem; color: var(--ink-4); line-height: 1.65; }
+
+/* ══════════════════════════════════════
+   APPLICATION FORM
+══════════════════════════════════════ */
+.form-card {
+  background: #fff;
+  border-radius: var(--radius);
+  box-shadow: var(--shadow);
+  overflow: hidden;
+}
+.form-card-header {
+  background: linear-gradient(135deg, var(--lav) 0%, var(--peach) 100%);
+  padding: 32px 36px;
+}
+.form-card-header h2 {
+  font-family: 'Playfair Display', serif;
+  font-size: 1.6rem;
+  font-weight: 900;
+  margin-bottom: 6px;
+}
+.form-card-header p {
+  font-size: .88rem;
+  color: var(--ink-3);
+  line-height: 1.6;
+}
+.form-card-body {
+  padding: 36px;
+}
+.form-row {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 20px;
+}
+.form-group { margin-bottom: 20px; }
+.form-label {
+  display: block;
+  font-size: .82rem;
+  font-weight: 600;
+  color: var(--ink-3);
+  margin-bottom: 7px;
+  letter-spacing: .01em;
+}
+.form-label .required { color: var(--peach-d); margin-left: 2px; }
+
+/* Availability checkboxes */
+.avail-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 8px;
+}
+.avail-item {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 10px 12px;
+  border-radius: var(--radius-sm);
+  border: 1.5px solid #E2E8F0;
+  cursor: pointer;
+  transition: all .2s;
+  font-size: .82rem;
+  font-weight: 500;
+  color: var(--ink-3);
+}
+.avail-item:hover { border-color: var(--mint-d); }
+.avail-item input[type="checkbox"] {
+  accent-color: var(--peach-d);
+  width: 16px; height: 16px;
+}
+.avail-item.checked {
+  border-color: var(--peach-d);
+  background: #fff8f6;
+  color: var(--ink);
+}
+
+/* Form submit area */
+.form-submit-area {
+  padding: 0 36px 36px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 16px;
+}
+.form-note {
+  font-size: .8rem;
+  color: var(--ink-4);
+  max-width: 360px;
+  line-height: 1.6;
+}
+
+/* Error + success */
+.field-error {
+  font-size: .76rem;
+  color: #E53E3E;
+  margin-top: 5px;
+  display: none;
+}
+.field-error.show { display: block; }
+.input-error {
+  border-color: #FC8181 !important;
+}
+
+/* Success state */
+.form-success {
+  display: none;
+  text-align: center;
+  padding: 60px 36px;
+  animation: popIn .4s cubic-bezier(.175,.885,.32,1.275);
+}
+.form-success.show { display: block; }
+@@keyframes popIn {
+  from { transform: scale(.92); opacity: 0; }
+  to   { transform: scale(1);   opacity: 1; }
+}
+.success-icon { font-size: 3.5rem; margin-bottom: 16px; }
+.form-success h3 {
+  font-family: 'Playfair Display', serif;
+  font-size: 1.6rem;
+  font-weight: 900;
+  margin-bottom: 10px;
+}
+.form-success p {
+  font-size: .9rem;
+  color: var(--ink-3);
+  margin-bottom: 28px;
+  line-height: 1.7;
+  max-width: 400px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+/* ══════════════════════════════════════
+   RESPONSIVE
+══════════════════════════════════════ */
+@@media (max-width: 1100px) {
+  .roles-grid { grid-template-columns: repeat(2, 1fr); }
+  .why-grid   { grid-template-columns: repeat(2, 1fr); }
+}
+@@media (max-width: 900px) {
+  .vol-page         { padding: 48px 24px 60px; }
+  .impact-strip     { padding: 28px 32px; }
+  .page-hero-content{ padding: 36px 24px 60px; }
+  .form-row         { grid-template-columns: 1fr; }
+  .form-card-body   { padding: 24px; }
+  .form-submit-area { padding: 0 24px 24px; }
+  .form-card-header { padding: 24px; }
+}
+@@media (max-width: 600px) {
+  .roles-grid   { grid-template-columns: 1fr; }
+  .why-grid     { grid-template-columns: 1fr 1fr; }
+  .avail-grid   { grid-template-columns: 1fr 1fr; }
+  .form-submit-area { flex-direction: column; align-items: stretch; }
+}
+</style>
+</head>
+<body>
+
+<!-- ══════ NAV ══════ -->
+<nav class="nav" id="navbar">
+  <a class="nav-logo" href="home.html">Bridge<span>Up</span></a>
+  <div class="nav-links">
+            <a class="nav-link active" href="/Home">Home</a>
+            <a class="nav-link" href="/Home/Courses">Courses</a>
+            <a class="nav-link" href="/Home/Classes">Classes</a>
+            <a class="nav-link" href="/Home/Bookings">Bookings</a>
+            <a class="nav-link" href="/Home/Sign Language">Sign Language</a>
+            <a class="nav-link" href="/Home/Centers">Centers</a>
+            <a class="nav-link" href="/Home/About">About Us</a>
+            <a class="nav-link" href="/Home/Support">Support</a>
+            <a class="nav-link" href="/Home/Volunteering">Volunteering</a>
+  </div>
+  <div class="nav-actions">
+    <button class="btn-nav-ghost" onclick="window.location='/Home/Signin'">Sign in</button>
+            <button class="btn-nav-fill" onclick="window.location='/Home/Signup'">Get started</button>
+  </div>
+  <button class="nav-hamburger" id="hamBtn" onclick="toggleMenu()">
+    <span></span><span></span><span></span>
+  </button>
+</nav>
+
+<div class="mobile-menu" id="mobileMenu">
+        <a class="mobile-menu-link" href="/Home/Home">🏠 Home</a>
+        <a class="mobile-menu-link" href="/Home/Courses">📚 Courses</a>
+        <a class="mobile-menu-link" href="/Home/Classes">🎓 Classes</a>
+        <a class="mobile-menu-link" href="/Home/Bookings">📅 Bookings</a>
+        <a class="mobile-menu-link" href="/Home/ SignLanguage">🤟 Sign Language</a>
+        <a class="mobile-menu-link" href="/Home/Centers">🏥 Centers</a>
+        <a class="mobile-menu-link" href="/Home/Volunteering">🤝 Volunteer</a>
+        <a class="mobile-menu-link" href="/Home/About">ℹ️ About Us</a>
+        <a class="mobile-menu-link active" href="/Home/News">📰 News</a>
+        <a class="mobile-menu-link" href="/Home/Support">💬 Support</a>
+        <div class="mobile-menu-divider"></div>
+        <a class="mobile-menu-link" href="/Home/Signin" style="color:var(--peach-d);font-weight:600">Sign in</a>
+        <a class="mobile-menu-link" href="/Home/Signup" style="background:var(--peach);border-radius:14px;font-weight:700;text-align:center">Get started →</a>
+</div>
+
+<!-- ══════ PAGE HERO ══════ -->
+<div class="page-hero">
+  <div class="page-hero-birds"></div>
+  <div class="page-hero-content">
+    <div class="eyebrow">🤝 Give back</div>
+    <h1>Volunteer with Us</h1>
+    <p>Join our community of volunteers making a real difference in the lives of people with disabilities — one session, one lesson, one smile at a time.</p>
+  </div>
+  <div class="page-hero-wave">
+    <svg viewBox="0 0 1440 60" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="none" style="width:100%;display:block">
+      <path d="M0,30 C240,60 480,0 720,30 C960,60 1200,0 1440,30 L1440,60 L0,60 Z" fill="rgba(255,255,255,.5)"/>
+      <path d="M0,45 C360,15 720,60 1080,35 C1260,22 1380,50 1440,45 L1440,60 L0,60 Z" fill="var(--ink)"/>
+    </svg>
+  </div>
+</div>
+
+<!-- ══════ IMPACT STRIP ══════ -->
+<div class="impact-strip">
+  <div class="impact-item">
+    <span class="impact-n">340+</span>
+    <div class="impact-l">Active volunteers</div>
+  </div>
+  <div class="impact-item">
+    <span class="impact-n">12,000+</span>
+    <div class="impact-l">Hours contributed</div>
+  </div>
+  <div class="impact-item">
+    <span class="impact-n">1,800+</span>
+    <div class="impact-l">Lives touched</div>
+  </div>
+  <div class="impact-item">
+    <span class="impact-n">30+</span>
+    <div class="impact-l">Open roles right now</div>
+  </div>
+</div>
+
+<!-- ══════ MAIN ══════ -->
+<div class="vol-page">
+  <div class="vol-inner">
+
+    <!-- ── WHY VOLUNTEER ── -->
+    <div style="margin-bottom:52px" class="reveal">
+      <div class="eyebrow">Why it matters</div>
+      <div class="vol-section-title">What you'll gain</div>
+      <div class="vol-section-sub">Volunteering with BridgeUp isn't just giving — it's growing too.</div>
+    </div>
+
+    <div class="why-grid">
+      <div class="why-card reveal">
+        <span class="why-icon">🎓</span>
+        <h3>Certified Experience</h3>
+        <p>Receive an official BridgeUp volunteer certificate recognized by our partner centers and universities.</p>
+      </div>
+      <div class="why-card reveal">
+        <span class="why-icon">🌍</span>
+        <h3>Real Impact</h3>
+        <p>Work directly with individuals with disabilities and their families — your contribution is visible and meaningful.</p>
+      </div>
+      <div class="why-card reveal">
+        <span class="why-icon">🤝</span>
+        <h3>Community</h3>
+        <p>Join a warm, driven community of educators, therapists, and change-makers who support each other.</p>
+      </div>
+      <div class="why-card reveal">
+        <span class="why-icon">📈</span>
+        <h3>Skill Building</h3>
+        <p>Develop real skills in accessibility, communication, sign language, and inclusive education.</p>
+      </div>
+    </div>
+
+    <!-- ── OPEN ROLES ── -->
+    <div style="margin-bottom:28px">
+      <div class="eyebrow reveal">Open positions</div>
+      <div class="vol-section-title reveal">Find your role</div>
+      <div class="vol-section-sub reveal">Browse open volunteer roles and click Apply to fill in your details below.</div>
+    </div>
+
+    <div class="roles-filter">
+      <button class="rfchip active" onclick="filterRoles('', this)">All Roles</button>
+      <button class="rfchip" onclick="filterRoles('remote', this)">🌐 Remote</button>
+      <button class="rfchip" onclick="filterRoles('onsite', this)">📍 On-site</button>
+      <button class="rfchip" onclick="filterRoles('urgent', this)">🔴 Urgent</button>
+      <button class="rfchip" onclick="filterRoles('sign', this)">🤟 Sign Language</button>
+      <button class="rfchip" onclick="filterRoles('teaching', this)">📚 Teaching</button>
+    </div>
+
+    <!--
+      TODO: fetch from Supabase
+      Table: volunteer_roles (id, title, description, icon_emoji, icon_bg,
+                              urgency ['urgent'|'open'|'flexible'],
+                              mode ['remote'|'onsite'|'both'],
+                              commitment, spots_total, spots_taken,
+                              skills text[], tags text[],
+                              created_at timestamptz)
+      Query: supabase.from('volunteer_roles').select('*').eq('is_active', true)
+    -->
+    <div class="roles-grid" id="rolesGrid"></div>
+
+    <!-- ── APPLICATION FORM ── -->
+    <div class="form-card" id="applicationForm">
+      <div class="form-card-header">
+        <h2>Apply to Volunteer 🙌</h2>
+        <p>Fill in your details and we'll match you with the right opportunity within 2–3 business days.</p>
+      </div>
+
+      <div class="form-card-body" id="formBody">
+        <div class="form-row">
+          <div class="form-group">
+            <label class="form-label">Full Name <span class="required">*</span></label>
+            <input class="form-input" type="text" id="v-name" placeholder="Your full name"/>
+            <div class="field-error" id="err-name">Please enter your name.</div>
+          </div>
+          <div class="form-group">
+            <label class="form-label">Email <span class="required">*</span></label>
+            <input class="form-input" type="email" id="v-email" placeholder="you@example.com"/>
+            <div class="field-error" id="err-email">Please enter a valid email.</div>
+          </div>
+        </div>
+
+        <div class="form-row">
+          <div class="form-group">
+            <label class="form-label">Phone Number</label>
+            <input class="form-input" type="tel" id="v-phone" placeholder="+20 10 0000 0000"/>
+          </div>
+          <div class="form-group">
+            <label class="form-label">City <span class="required">*</span></label>
+            <select class="form-input" id="v-city">
+              <option value="">Select your city…</option>
+              <option>Cairo</option>
+              <option>Giza</option>
+              <option>Alexandria</option>
+              <option>Mansoura</option>
+              <option>Assiut</option>
+              <option>Other</option>
+            </select>
+            <div class="field-error" id="err-city">Please select your city.</div>
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label class="form-label">Area of Interest <span class="required">*</span></label>
+          <select class="form-input" id="v-role">
+            <option value="">Select a role…</option>
+            <option value="sign">🤟 Sign Language Interpreter</option>
+            <option value="tutor">📚 Tutoring & Mentoring</option>
+            <option value="event">🎪 Event Assistance</option>
+            <option value="sensory">🌈 Sensory Room Support</option>
+            <option value="content">✍️ Content Creation</option>
+            <option value="tech">💻 Tech & Accessibility Support</option>
+            <option value="admin">📋 Admin & Coordination</option>
+          </select>
+          <div class="field-error" id="err-role">Please select a role.</div>
+        </div>
+
+        <div class="form-group">
+          <label class="form-label">Availability <span class="required">*</span></label>
+          <div class="avail-grid" id="availGrid">
+            <label class="avail-item" onclick="toggleAvail(this)">
+              <input type="checkbox" value="weekday-morning"> Weekday mornings
+            </label>
+            <label class="avail-item" onclick="toggleAvail(this)">
+              <input type="checkbox" value="weekday-afternoon"> Weekday afternoons
+            </label>
+            <label class="avail-item" onclick="toggleAvail(this)">
+              <input type="checkbox" value="weekday-evening"> Weekday evenings
+            </label>
+            <label class="avail-item" onclick="toggleAvail(this)">
+              <input type="checkbox" value="weekend-morning"> Weekend mornings
+            </label>
+            <label class="avail-item" onclick="toggleAvail(this)">
+              <input type="checkbox" value="weekend-afternoon"> Weekend afternoons
+            </label>
+            <label class="avail-item" onclick="toggleAvail(this)">
+              <input type="checkbox" value="remote-anytime"> Remote / flexible
+            </label>
+          </div>
+          <div class="field-error" id="err-avail">Please select at least one availability slot.</div>
+        </div>
+
+        <div class="form-group">
+          <label class="form-label">Relevant Experience or Skills</label>
+          <textarea
+            class="form-input"
+            id="v-experience"
+            rows="3"
+            placeholder="e.g. I studied special education, I know basic sign language, I have experience tutoring children with ADHD…"
+          ></textarea>
+        </div>
+
+        <div class="form-group">
+          <label class="form-label">Why do you want to volunteer with BridgeUp? <span class="required">*</span></label>
+          <textarea
+            class="form-input"
+            id="v-motivation"
+            rows="4"
+            placeholder="Tell us what motivates you and what you hope to contribute…"
+          ></textarea>
+          <div class="field-error" id="err-motivation">Please share your motivation.</div>
+        </div>
+
+        <div style="display:flex;align-items:flex-start;gap:10px;margin-bottom:8px;font-size:.84rem;color:var(--ink-3)">
+          <input type="checkbox" id="v-tos" style="width:16px;height:16px;accent-color:var(--peach-d);margin-top:2px;flex-shrink:0"/>
+          <label for="v-tos">I agree to BridgeUp's <a href="#" style="color:var(--peach-d);font-weight:700">Volunteer Terms</a> and understand that my application will be reviewed by the team.</label>
+        </div>
+        <div class="field-error" id="err-tos">Please accept the volunteer terms to continue.</div>
+      </div>
+
+      <div class="form-submit-area" id="formSubmitArea">
+        <div class="form-note">
+          🕐 We review all applications within 2–3 business days. You'll receive a confirmation email once reviewed.
+        </div>
+        <button class="btn-primary" onclick="submitApplication()" style="padding:14px 36px">
+          Submit Application →
+        </button>
+      </div>
+
+      <!-- Success state -->
+      <div class="form-success" id="formSuccess">
+        <div class="success-icon">🎉</div>
+        <h3>Application submitted!</h3>
+        <p>Thank you for wanting to make a difference. We'll review your application and be in touch within 2–3 business days.</p>
+        <button class="btn-primary" onclick="resetForm()">Submit another application</button>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<!-- ══════ FOOTER ══════ -->
+    <footer class="footer">
+        <div class="footer-grid">
+            <div class="footer-brand">
+                <span class="footer-logo">Ability<span>Place</span></span>
+                <p>Inclusive education and therapy for people with disabilities — ADHD, Autism, Down Syndrome, Deaf, Mute, and Blind.</p>
+                <div class="footer-social">
+                    <a class="footer-soc">𝕏</a>
+                    <a class="footer-soc">in</a>
+                    <a class="footer-soc">f</a>
+                    <a class="footer-soc">📸</a>
+                </div>
+            </div>
+            <div class="footer-col">
+                <h4>Platform</h4>
+                <a href="/Home/Courses">Courses</a>
+                <a href="/Home/.html">Live Classes</a>
+                <a href="/Home/.html">Book Sessions</a>
+                <a href="/Home/SignLanguage">Sign Language</a>
+                <a href="/Home/Centers">Find Centers</a>
+            </div>
+            <div class="footer-col">
+                <h4>Community</h4>
+                <a href="/Home/Volunteering">Volunteer</a>
+                <a href="/Home/News">News & Events</a>
+                <a href="/Home/About">About Us</a>
+                <a href="/Home/Support">Support</a>
+            </div>
+            <div class="footer-col">
+                <h4>Accessibility</h4>
+                <a onclick="showToast('🔊 Text to Speech enabled!')">🔊 Text to Speech</a>
+                <a onclick="document.body.style.fontSize='19px'">A+ Larger text</a>
+                <a onclick="document.body.style.fontSize=''">A− Reset text</a>
+                <a>عربي Arabic</a>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <span>© 2025 BridgeUp. Built with 💛 for every learner.</span>
+            <div class="footer-a11y">
+                <button class="footer-a11y-btn" onclick="showToast('🔊 TTS enabled!')">🔊 TTS</button>
+                <button class="footer-a11y-btn" onclick="document.body.style.fontSize='19px'">A+</button>
+                <button class="footer-a11y-btn" onclick="document.body.style.fontSize=''">A−</button>
+            </div>
+        </div>
+    </footer>
+<button class="chatbot-fab" onclick="window.location='support.html'" aria-label="Open AI Assistant">🤖</button>
+<div class="chatbot-tooltip">AI Assistant</div>
+<div class="toast" id="toast"></div>
+
+    <script>
+        window.addEventListener('mouseover', initLandbot, { once: true });
+        window.addEventListener('touchstart', initLandbot, { once: true });
+        var myLandbot;
+        function initLandbot() {
+          if (!myLandbot) {
+            var s = document.createElement('script');
+            s.type = "module"
+            s.async = true;
+            s.addEventListener('load', function() {
+              myLandbot = new Landbot.Popup({
+                configUrl: 'https://storage.googleapis.com/landbot.online/v3/H-3412628-ZG834BK3N10PWEIA/index.json',
+              });
+            });
+            s.src = 'https://cdn.landbot.io/landbot-3/landbot-3.0.0.mjs';
+            var x = document.getElementsByTagName('script')[0];
+            x.parentNode.insertBefore(s, x);
+          }
+        }
+    </script>
+<script>
+
+// ══════════════════════════════════════
+// PLACEHOLDER DATA
+// TODO: fetch from Supabase volunteer_roles table
+// ══════════════════════════════════════
+const ROLES_DATA = [
+  {
+    id: 'r1',
+    title: 'Sign Language Interpreter',
+    description: 'Assist during live classes, community events, and one-on-one sessions as an ESL or ASL interpreter. Training and certification support provided.',
+    icon_emoji: '🤟', icon_bg: 'var(--sky)',
+    urgency: 'urgent',
+    mode: 'onsite',
+    commitment: '4–6 hrs/week',
+    spots_total: 8, spots_taken: 5,
+    skills: ['ESL', 'ASL', 'Communication'],
+    tags: ['sign', 'onsite'],
+  },
+  {
+    id: 'r2',
+    title: 'Tutor & Mentor',
+    description: 'One-on-one or small group tutoring for learners with ADHD, Autism, or Down Syndrome. Online or in-person, structured curriculum provided.',
+    icon_emoji: '📚', icon_bg: 'var(--lav)',
+    urgency: 'open',
+    mode: 'both',
+    commitment: '2–4 hrs/week',
+    spots_total: 15, spots_taken: 7,
+    skills: ['Teaching', 'Patience', 'Curriculum'],
+    tags: ['teaching', 'remote'],
+  },
+  {
+    id: 'r3',
+    title: 'Event Assistant',
+    description: 'Help organize and run inclusive community events, awareness campaigns, and workshops across Egypt. Great for people who love organizing and connecting.',
+    icon_emoji: '🎪', icon_bg: 'var(--peach)',
+    urgency: 'flexible',
+    mode: 'onsite',
+    commitment: 'Event-based',
+    spots_total: 20, spots_taken: 11,
+    skills: ['Organization', 'Communication', 'Energy'],
+    tags: ['onsite'],
+  },
+  {
+    id: 'r4',
+    title: 'Sensory Room Support',
+    description: 'Assist certified therapists during sensory integration sessions at partner centers. Work directly with children and adults in a therapeutic environment.',
+    icon_emoji: '🌈', icon_bg: '#DCEDC8',
+    urgency: 'urgent',
+    mode: 'onsite',
+    commitment: '3–5 hrs/week',
+    spots_total: 6, spots_taken: 4,
+    skills: ['Empathy', 'Calm presence', 'Therapy basics'],
+    tags: ['onsite'],
+  },
+  {
+    id: 'r5',
+    title: 'Content Creator',
+    description: 'Create accessible educational content — subtitles, simplified text summaries, visual aids, illustrations, and video scripts for our courses and classes.',
+    icon_emoji: '✍️', icon_bg: '#E8EAF6',
+    urgency: 'open',
+    mode: 'remote',
+    commitment: '3–6 hrs/week',
+    spots_total: 10, spots_taken: 3,
+    skills: ['Writing', 'Design', 'Accessibility'],
+    tags: ['remote', 'teaching'],
+  },
+  {
+    id: 'r6',
+    title: 'Tech & Accessibility Support',
+    description: 'Help test our platform for accessibility, assist learners with screen readers and assistive tech, and support the team with technical issues.',
+    icon_emoji: '💻', icon_bg: '#FFF9C4',
+    urgency: 'open',
+    mode: 'remote',
+    commitment: '2–4 hrs/week',
+    spots_total: 8, spots_taken: 2,
+    skills: ['Tech-savvy', 'Accessibility', 'Troubleshooting'],
+    tags: ['remote'],
+  },
+]
+
+const URGENCY_CONFIG = {
+  urgent:   { label: '🔴 Urgent',   bg: '#FFCDD2', color: '#B71C1C' },
+  open:     { label: '✅ Open',     bg: '#C8E6C9', color: '#1B5E20' },
+  flexible: { label: '🟡 Flexible', bg: '#FFF9C4', color: '#F57F17' },
+}
+const MODE_LABELS = { remote: '🌐 Remote', onsite: '📍 On-site', both: '🔄 Both' }
+
+// ══════════════════════════════════════
+// STATE
+// ══════════════════════════════════════
+let activeRoleFilter = ''
+let selectedRoleId   = null
+
+// ══════════════════════════════════════
+// NAV
+// ══════════════════════════════════════
+window.addEventListener('scroll', () => {
+  document.getElementById('navbar').classList.toggle('scrolled', window.scrollY > 10)
+})
+function toggleMenu() {
+  document.getElementById('mobileMenu').classList.toggle('open')
+}
+document.querySelectorAll('.mobile-menu-link').forEach(l => {
+  l.addEventListener('click', () => document.getElementById('mobileMenu').classList.remove('open'))
+})
+
+// ══════════════════════════════════════
+// ROLES RENDER
+// ══════════════════════════════════════
+function filterRoles(filter, btn) {
+  activeRoleFilter = filter
+  document.querySelectorAll('.rfchip').forEach(c => c.classList.remove('active'))
+  btn.classList.add('active')
+  renderRoles()
+}
+
+function renderRoles() {
+  const grid = document.getElementById('rolesGrid')
+  let list = [...ROLES_DATA]
+  if (activeRoleFilter) {
+    list = list.filter(r => r.tags.includes(activeRoleFilter))
+  }
+
+  if (!list.length) {
+    grid.innerHTML = `<div style="grid-column:1/-1;text-align:center;padding:60px 20px;color:var(--ink-4)">
+      <div style="font-size:2rem;margin-bottom:12px">🤝</div>
+      <p>No roles match this filter right now. Check back soon!</p>
+    </div>`
+    return
+  }
+
+  grid.innerHTML = list.map(r => {
+    const urg = URGENCY_CONFIG[r.urgency]
+    const spotsLeft = r.spots_total - r.spots_taken
+    const isFull = spotsLeft <= 0
+
+    return `
+      <div class="role-card reveal">
+        <div class="role-card-top">
+          <div class="role-icon" style="background:${r.icon_bg}">${r.icon_emoji}</div>
+          <div class="role-card-info">
+            <h3>${r.title}</h3>
+            <div class="role-badges">
+              <span class="urgency-badge" style="background:${urg.bg};color:${urg.color}">${urg.label}</span>
+              <span class="mode-badge">${MODE_LABELS[r.mode]}</span>
+            </div>
+          </div>
+        </div>
+        <p class="role-desc">${r.description}</p>
+        <div class="role-details">
+          <span>⏱ ${r.commitment}</span>
+          <span>👥 ${spotsLeft} spot${spotsLeft !== 1 ? 's' : ''} left</span>
+        </div>
+        <div class="role-skills">
+          ${r.skills.map(s => `<span class="skill-tag">${s}</span>`).join('')}
+        </div>
+        <div class="role-footer">
+          <div class="spots-left">
+            <span>${r.spots_taken}</span> / ${r.spots_total} spots filled
+          </div>
+          <button
+            class="apply-btn"
+            ${isFull ? 'disabled' : ''}
+            onclick="prefillRole('${r.id}', '${r.title.replace(/'/g,"\\'")}')">
+            ${isFull ? 'Full' : 'Apply →'}
+          </button>
+        </div>
+      </div>`
+  }).join('')
+
+  grid.querySelectorAll('.reveal').forEach((el, i) => {
+    el.style.transitionDelay = (i * 60) + 'ms'
+    revealObserver.observe(el)
+  })
+}
+
+// ══════════════════════════════════════
+// PREFILL FORM FROM ROLE CARD
+// ══════════════════════════════════════
+function prefillRole(id, title) {
+  selectedRoleId = id
+  // Map role id to select option value
+  const roleMap = {
+    r1: 'sign', r2: 'tutor', r3: 'event',
+    r4: 'sensory', r5: 'content', r6: 'tech',
+  }
+  const roleSelect = document.getElementById('v-role')
+  if (roleMap[id]) roleSelect.value = roleMap[id]
+
+  // Smooth scroll to form
+  document.getElementById('applicationForm').scrollIntoView({ behavior: 'smooth', block: 'start' })
+  showToast(`✅ Role pre-filled: ${title}`)
+}
+
+// ══════════════════════════════════════
+// AVAILABILITY CHECKBOXES
+// ══════════════════════════════════════
+function toggleAvail(label) {
+  const cb = label.querySelector('input[type="checkbox"]')
+  // Let the browser handle check state, just update styling
+  setTimeout(() => {
+    label.classList.toggle('checked', cb.checked)
+  }, 0)
+}
+
+// ══════════════════════════════════════
+// FORM VALIDATION & SUBMIT
+// ══════════════════════════════════════
+function submitApplication() {
+  if (!validateForm()) return
+
+  const payload = {
+    name:       document.getElementById('v-name').value.trim(),
+    email:      document.getElementById('v-email').value.trim(),
+    phone:      document.getElementById('v-phone').value.trim(),
+    city:       document.getElementById('v-city').value,
+    role:       document.getElementById('v-role').value,
+    experience: document.getElementById('v-experience').value.trim(),
+    motivation: document.getElementById('v-motivation').value.trim(),
+    availability: [...document.querySelectorAll('#availGrid input:checked')].map(cb => cb.value),
+  }
+
+  // ── TODO: insert into Supabase ──────────────────────────
+  // const { error } = await supabase.from('volunteer_applications').insert({
+  //   ...payload,
+  //   status: 'pending',
+  //   created_at: new Date().toISOString(),
+  // })
+  // if (error) { showToast('❌ ' + error.message); return }
+  // ── END TODO ─────────────────────────────────────────────
+
+  // Show success
+  document.getElementById('formBody').style.display        = 'none'
+  document.getElementById('formSubmitArea').style.display  = 'none'
+  document.getElementById('formSuccess').classList.add('show')
+}
+
+function validateForm() {
+  let valid = true
+  clearErrors()
+
+  const name  = document.getElementById('v-name').value.trim()
+  const email = document.getElementById('v-email').value.trim()
+  const city  = document.getElementById('v-city').value
+  const role  = document.getElementById('v-role').value
+  const motiv = document.getElementById('v-motivation').value.trim()
+  const avail = document.querySelectorAll('#availGrid input:checked').length
+  const tos   = document.getElementById('v-tos').checked
+
+  if (!name)              { showErr('err-name', 'v-name');       valid = false }
+  if (!email.includes('@@')){ showErr('err-email', 'v-email');    valid = false }
+  if (!city)              { showErr('err-city', 'v-city');       valid = false }
+  if (!role)              { showErr('err-role', 'v-role');       valid = false }
+  if (!motiv)             { showErr('err-motivation', 'v-motivation'); valid = false }
+  if (avail === 0)        { showErr('err-avail');                valid = false }
+  if (!tos)               { showErr('err-tos');                  valid = false }
+
+  return valid
+}
+
+function showErr(errId, inputId) {
+  document.getElementById(errId).classList.add('show')
+  if (inputId) document.getElementById(inputId).classList.add('input-error')
+}
+function clearErrors() {
+  document.querySelectorAll('.field-error').forEach(e => e.classList.remove('show'))
+  document.querySelectorAll('.input-error').forEach(e => e.classList.remove('input-error'))
+}
+
+function resetForm() {
+  document.getElementById('formBody').style.display       = 'block'
+  document.getElementById('formSubmitArea').style.display = 'flex'
+  document.getElementById('formSuccess').classList.remove('show')
+  document.getElementById('v-name').value        = ''
+  document.getElementById('v-email').value       = ''
+  document.getElementById('v-phone').value       = ''
+  document.getElementById('v-city').value        = ''
+  document.getElementById('v-role').value        = ''
+  document.getElementById('v-experience').value  = ''
+  document.getElementById('v-motivation').value  = ''
+  document.getElementById('v-tos').checked       = false
+  document.querySelectorAll('#availGrid input').forEach(cb => { cb.checked = false })
+  document.querySelectorAll('.avail-item').forEach(l => l.classList.remove('checked'))
+  clearErrors()
+}
+
+// ══════════════════════════════════════
+// HELPERS
+// ══════════════════════════════════════
+const revealObserver = new IntersectionObserver((entries) => {
+  entries.forEach(entry => {
+    if (!entry.isIntersecting) return
+    entry.target.classList.add('visible')
+  })
+}, { threshold: 0.08 })
+
+document.querySelectorAll('.reveal').forEach(el => revealObserver.observe(el))
+
+function showToast(msg) {
+  const t = document.getElementById('toast')
+  t.textContent = msg
+  t.classList.add('show')
+  setTimeout(() => t.classList.remove('show'), 2800)
+}
+
+// ══════════════════════════════════════
+// INIT
+// ══════════════════════════════════════
+renderRoles()
+</script>
+</body>
+</html>

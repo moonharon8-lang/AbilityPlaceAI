@@ -1,0 +1,975 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>ABILITY PLACE</title>
+    <link rel="stylesheet" href="~/css/global.css" />
+    <style>
+
+        /* ══════════════════════════════════════n
+           HERO
+        ══════════════════════════════════════ */
+        .hero {
+          min-height: 100vh;
+          padding-top: var(--nav-h);
+          display: grid;
+          grid-template-columns: 1fr 1fr;
+          align-items: stretch;
+          position: relative;
+          overflow: hidden;
+        }
+
+        /* Left half — sky + birds */
+        .hero-sky {
+          background: var(--sky);
+          position: relative;
+          overflow: hidden;
+          min-height: calc(100vh - var(--nav-h));
+          display: flex;
+          align-items: center;
+          justify-content: center;
+        }
+        .hero-birds-img {
+          position: absolute;
+          inset: 0;
+            background-image: url('/image/ability2.png');
+          background-size: 90%;
+          background-repeat: no-repeat;
+          background-position: center 30%;
+          opacity: .95;
+        }
+        .hero-sky-edge {
+          position: absolute;
+          top: 0; right: -2px;
+          height: 100%; width: 80px;
+          background: linear-gradient(to right, transparent, #fff);
+          z-index: 2;
+        }
+
+        /* Floating card over the birds */
+        .hero-float-card {
+          position: absolute;
+          bottom: 14%;
+          left: 50%;
+          transform: translateX(-50%);
+          background: #fff;
+          border-radius: 18px;
+          padding: 16px 20px;
+          box-shadow: var(--shadow-md);
+          display: flex;
+          align-items: center;
+          gap: 12px;
+          z-index: 4;
+          white-space: nowrap;
+          animation: floatY 4s ease-in-out infinite;
+        }
+        @@keyframes floatY {
+          0%,100% { transform: translateX(-50%) translateY(0); }
+          50%      { transform: translateX(-50%) translateY(-8px); }
+        }
+        .hfc-icon { font-size: 1.8rem; }
+        .hfc-t { font-weight: 700; font-size: .88rem; color: var(--ink); }
+        .hfc-s { font-size: .75rem; color: var(--ink-4); margin-top: 1px; }
+
+        /* Right half — text content */
+        .hero-content {
+          background: #fff;
+          display: flex;
+          align-items: center;
+          padding: 80px 60px 80px 52px;
+        }
+        .hero-content-inner { max-width: 520px; }
+
+        .hero-eyebrow {
+          display: inline-flex;
+          align-items: center;
+          gap: 8px;
+          padding: 7px 16px 7px 10px;
+          border-radius: var(--radius-pill);
+          background: var(--sky);
+          border: 1.5px solid var(--mint);
+          font-size: .78rem;
+          font-weight: 700;
+          color: var(--mint-dd);
+          margin-bottom: 22px;
+          letter-spacing: .02em;
+        }
+        .hero-dot {
+          width: 8px; height: 8px;
+          border-radius: 50%;
+          background: var(--mint-dd);
+          animation: blink 2s ease-in-out infinite;
+        }
+        @@keyframes blink {
+          0%,100% { opacity: 1; transform: scale(1); }
+          50%      { opacity: .4; transform: scale(.75); }
+        }
+
+        .hero-content h1 {
+          font-family: 'Playfair Display', serif;
+          font-size: clamp(2.6rem, 4vw, 3.8rem);
+          font-weight: 900;
+          line-height: 1.1;
+          letter-spacing: -.03em;
+          color: var(--ink);
+          margin-bottom: 20px;
+        }
+        .hero-content h1 em {
+          font-style: italic;
+          color: var(--peach-d);
+        }
+
+        .hero-content p {
+          font-size: 1.05rem;
+          color: var(--ink-3);
+          line-height: 1.75;
+          margin-bottom: 36px;
+          max-width: 440px;
+        }
+
+        .hero-btns {
+          display: flex;
+          gap: 12px;
+          flex-wrap: wrap;
+          margin-bottom: 40px;
+        }
+
+        .social-proof { display: flex; align-items: center; gap: 14px; }
+        .sp-avatars { display: flex; }
+        .sp-avatars span {
+          width: 34px; height: 34px;
+          border-radius: 50%;
+          border: 2.5px solid #fff;
+          background: var(--sky);
+          display: flex; align-items: center; justify-content: center;
+          font-size: 1rem;
+          margin-left: -9px;
+          box-shadow: 0 2px 8px rgba(0,0,0,.1);
+        }
+        .sp-avatars span:first-child { margin-left: 0; }
+        .sp-text { font-size: .84rem; color: var(--ink-3); }
+        .sp-text strong { color: var(--ink); font-weight: 700; }
+
+        /* ══════════════════════════════════════
+           ACCESSIBILITY STRIP
+        ══════════════════════════════════════ */
+        .a11y-strip {
+          background: var(--ink);
+          padding: 28px 60px;
+          display: flex;
+          align-items: center;
+          justify-content: space-between;
+          gap: 16px;
+          flex-wrap: wrap;
+          position: relative;
+          overflow: hidden;
+        }
+        .a11y-strip::after {
+          content: '';
+          position: absolute;
+          right: -60px; top: -60px;
+          width: 220px; height: 220px;
+          border-radius: 50%;
+          background: radial-gradient(circle, rgba(178,223,219,.1) 0%, transparent 65%);
+          pointer-events: none;
+        }
+        .a11y-item { display: flex; align-items: center; gap: 12px; }
+        .a11y-icon {
+          width: 44px; height: 44px;
+          border-radius: 12px;
+          display: flex; align-items: center; justify-content: center;
+          font-size: 1.3rem; flex-shrink: 0;
+        }
+        .a11y-t { font-weight: 700; font-size: .88rem; color: #fff; display: block; }
+        .a11y-s { font-size: .74rem; color: rgba(255,255,255,.45); display: block; margin-top: 1px; }
+
+        /* ══════════════════════════════════════
+           STATS
+        ══════════════════════════════════════ */
+        .stats-row {
+          background: var(--sky);
+          display: grid;
+          grid-template-columns: repeat(5, 1fr);
+          gap: 2px;
+        }
+        .stat-box {
+          background: #fff;
+          padding: 36px 20px;
+          text-align: center;
+          transition: background .2s;
+          cursor: default;
+        }
+        .stat-box:hover { background: var(--sky); }
+        .stat-n {
+          font-family: 'Playfair Display', serif;
+          font-size: 2.4rem;
+          font-weight: 900;
+          color: var(--peach-d);
+          display: block;
+          line-height: 1;
+        }
+        .stat-l { font-size: .8rem; color: var(--ink-4); margin-top: 8px; font-weight: 500; }
+
+        /* ══════════════════════════════════════
+           FEATURES
+        ══════════════════════════════════════ */
+        .features-section { padding: 100px 60px; background: #fff; }
+        .features-grid {
+          display: grid;
+          grid-template-columns: repeat(4, 1fr);
+          gap: 16px;
+          margin-top: 52px;
+        }
+        .feat-card {
+          padding: 28px 22px;
+          border-radius: var(--radius);
+          border: 1.5px solid rgba(0,0,0,.07);
+          background: #fff;
+          cursor: pointer;
+          transition: all .25s;
+          position: relative;
+          overflow: hidden;
+        }
+        .feat-card::after {
+          content: '';
+          position: absolute;
+          bottom: 0; left: 0; right: 0;
+          height: 3px;
+          background: var(--peach-d);
+          transform: scaleX(0);
+          transform-origin: left;
+          transition: transform .3s;
+        }
+        .feat-card:hover { transform: translateY(-5px); box-shadow: var(--shadow-lg); border-color: transparent; }
+        .feat-card:hover::after { transform: scaleX(1); }
+        .feat-icon {
+          width: 50px; height: 50px;
+          border-radius: 14px;
+          display: flex; align-items: center; justify-content: center;
+          font-size: 1.5rem;
+          margin-bottom: 16px;
+        }
+        .feat-card h3 { font-weight: 700; font-size: .97rem; margin-bottom: 8px; }
+        .feat-card p  { font-size: .82rem; color: var(--ink-4); line-height: 1.65; }
+        .feat-arrow {
+          display: inline-flex;
+          align-items: center;
+          gap: 4px;
+          margin-top: 14px;
+          font-size: .8rem;
+          font-weight: 700;
+          color: var(--peach-d);
+          transition: gap .2s;
+        }
+        .feat-card:hover .feat-arrow { gap: 8px; }
+
+        /* ══════════════════════════════════════
+           WHO WE SERVE
+        ══════════════════════════════════════ */
+        .serve-section { padding: 100px 60px; background: var(--sky); }
+        .serve-grid {
+          display: grid;
+          grid-template-columns: repeat(4, 1fr);
+          gap: 16px;
+          margin-top: 52px;
+        }
+        .serve-card {
+          background: #fff;
+          border-radius: var(--radius);
+          padding: 32px 24px;
+          box-shadow: var(--shadow);
+          transition: transform .25s;
+        }
+        .serve-card:hover { transform: translateY(-4px); }
+        .sc-icon { font-size: 2.6rem; margin-bottom: 14px; display: block; }
+        .serve-card h3 {
+          font-family: 'Playfair Display', serif;
+          font-size: 1.05rem;
+          font-weight: 700;
+          margin-bottom: 10px;
+        }
+        .serve-card p { font-size: .83rem; color: var(--ink-3); line-height: 1.65; }
+        .serve-tags { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 14px; }
+        .serve-tag {
+          padding: 3px 10px;
+          border-radius: var(--radius-pill);
+          font-size: .7rem;
+          font-weight: 700;
+          background: var(--sky);
+          color: var(--mint-dd);
+        }
+
+        .disabilities-row { margin-top: 60px; text-align: center; }
+        .disabilities-row h3 {
+          font-family: 'Playfair Display', serif;
+          font-size: 1.4rem;
+          font-weight: 700;
+          margin-bottom: 20px;
+        }
+        .disability-chips { display: flex; flex-wrap: wrap; gap: 12px; justify-content: center; }
+        .d-chip {
+          padding: 10px 22px;
+          border-radius: var(--radius-pill);
+          background: #fff;
+          border: 1.5px solid rgba(0,0,0,.07);
+          font-size: .88rem;
+          font-weight: 600;
+          color: var(--ink-2);
+          box-shadow: var(--shadow);
+          transition: all .2s;
+          cursor: default;
+        }
+        .d-chip:hover { border-color: var(--peach-d); transform: translateY(-2px); }
+
+        /* ══════════════════════════════════════
+           COURSES PREVIEW
+        ══════════════════════════════════════ */
+        .courses-section { padding: 100px 60px; background: #fff; }
+        .courses-header {
+          display: flex;
+          align-items: flex-end;
+          justify-content: space-between;
+          flex-wrap: wrap;
+          gap: 20px;
+          margin-bottom: 40px;
+        }
+        .courses-grid {
+          display: grid;
+          grid-template-columns: repeat(4, 1fr);
+          gap: 16px;
+        }
+        .course-card {
+          border-radius: var(--radius);
+          border: 1.5px solid rgba(0,0,0,.07);
+          overflow: hidden;
+          background: #fff;
+          cursor: pointer;
+          transition: all .25s;
+        }
+        .course-card:hover { transform: translateY(-5px); box-shadow: var(--shadow-lg); border-color: transparent; }
+        .cc-thumb {
+          height: 130px;
+          display: flex; align-items: center; justify-content: center;
+          font-size: 3.2rem;
+          position: relative;
+        }
+        .cc-free {
+          position: absolute;
+          top: 10px; right: 10px;
+          padding: 3px 10px;
+          border-radius: var(--radius-pill);
+          background: rgba(255,255,255,.88);
+          font-size: .7rem;
+          font-weight: 700;
+          color: #276749;
+          backdrop-filter: blur(4px);
+        }
+        .cc-body { padding: 18px; }
+        .cc-cat {
+          font-size: .7rem;
+          font-weight: 700;
+          text-transform: uppercase;
+          letter-spacing: .06em;
+          color: var(--lav-d);
+          margin-bottom: 6px;
+        }
+        .cc-body h3 { font-weight: 700; font-size: .92rem; line-height: 1.4; margin-bottom: 10px; }
+        .cc-meta { display: flex; gap: 10px; font-size: .74rem; color: var(--ink-4); margin-bottom: 14px; }
+        .cc-btn {
+          width: 100%;
+          padding: 10px;
+          border-radius: var(--radius-pill);
+          border: none;
+          background: var(--peach);
+          color: var(--ink);
+          font-weight: 700;
+          font-size: .84rem;
+          transition: all .2s;
+        }
+        .cc-btn:hover { background: var(--peach-d); color: #fff; }
+
+        /* ══════════════════════════════════════
+           TESTIMONIALS
+        ══════════════════════════════════════ */
+        .testi-section {
+          padding: 100px 60px;
+          background: var(--ink);
+          position: relative;
+          overflow: hidden;
+        }
+        .testi-section::before {
+          content: '';
+          position: absolute;
+          top: -80px; left: -80px;
+          width: 340px; height: 340px;
+          border-radius: 50%;
+          background: radial-gradient(circle, rgba(178,223,219,.07) 0%, transparent 65%);
+          pointer-events: none;
+        }
+        .testi-section .eyebrow { background: rgba(255,255,255,.1); color: rgba(255,255,255,.65); }
+        .testi-section .section-title { color: #fff; }
+        .testi-section .section-sub   { color: rgba(255,255,255,.45); }
+        .testi-grid {
+          display: grid;
+          grid-template-columns: repeat(3, 1fr);
+          gap: 18px;
+          margin-top: 52px;
+          position: relative; z-index: 1;
+        }
+        .testi-card {
+          background: rgba(255,255,255,.06);
+          border: 1px solid rgba(255,255,255,.1);
+          border-radius: var(--radius);
+          padding: 28px;
+          transition: all .25s;
+        }
+        .testi-card:hover { background: rgba(255,255,255,.09); transform: translateY(-4px); }
+        .testi-stars { color: var(--peach); font-size: .85rem; margin-bottom: 14px; }
+        .testi-quote-mark {
+          font-family: 'Playfair Display', serif;
+          font-size: 3rem;
+          color: var(--peach);
+          line-height: .8;
+          margin-bottom: 10px;
+          display: block;
+        }
+        .testi-text { font-size: .88rem; color: rgba(255,255,255,.72); line-height: 1.75; margin-bottom: 22px; }
+        .testi-author { display: flex; align-items: center; gap: 12px; }
+        .testi-avatar {
+          width: 42px; height: 42px;
+          border-radius: 50%;
+          display: flex; align-items: center; justify-content: center;
+          font-size: 1.2rem; flex-shrink: 0;
+        }
+        .testi-name { font-weight: 700; font-size: .88rem; color: #fff; }
+        .testi-role { font-size: .74rem; color: rgba(255,255,255,.4); margin-top: 2px; }
+
+        /* ══════════════════════════════════════
+           CTA
+        ══════════════════════════════════════ */
+        .cta-section {
+          padding: 100px 60px;
+          background: linear-gradient(135deg, var(--sky) 0%, var(--lav) 50%, var(--peach) 100%);
+          text-align: center;
+          position: relative;
+          overflow: hidden;
+        }
+        .cta-section::before {
+          content: '';
+          position: absolute;
+          top: 50%; left: 50%;
+          transform: translate(-50%, -50%);
+          width: 500px; height: 500px;
+          border-radius: 50%;
+          background: radial-gradient(circle, rgba(255,255,255,.3) 0%, transparent 65%);
+          pointer-events: none;
+        }
+        .cta-section h2 {
+          font-family: 'Playfair Display', serif;
+          font-size: clamp(2rem, 3.5vw, 3rem);
+          font-weight: 900;
+          letter-spacing: -.025em;
+          margin-bottom: 16px;
+          position: relative; z-index: 1;
+        }
+        .cta-section p {
+          font-size: 1rem;
+          color: var(--ink-3);
+          max-width: 440px;
+          margin: 0 auto 36px;
+          line-height: 1.75;
+          position: relative; z-index: 1;
+        }
+        .cta-btns {
+          display: flex;
+          gap: 14px;
+          justify-content: center;
+          flex-wrap: wrap;
+          position: relative; z-index: 1;
+        }
+
+        /* ══════════════════════════════════════
+           RESPONSIVE
+        ══════════════════════════════════════ */
+        @@media (max-width: 1100px) {
+          .features-grid { grid-template-columns: repeat(2, 1fr); }
+          .courses-grid  { grid-template-columns: repeat(2, 1fr); }
+          .testi-grid    { grid-template-columns: repeat(2, 1fr); }
+          .serve-grid    { grid-template-columns: repeat(2, 1fr); }
+        }
+        @@media (max-width: 900px) {
+          .hero { grid-template-columns: 1fr; }
+          .hero-sky { min-height: 45vh; }
+          .hero-content { padding: 48px 32px; }
+          .hero-float-card { bottom: 6%; }
+          .a11y-strip { padding: 28px 32px; }
+          .stats-row { grid-template-columns: repeat(3, 1fr); }
+          .features-section,
+          .serve-section,
+          .courses-section,
+          .testi-section,
+          .cta-section { padding: 72px 32px; }
+        }
+        @@media (max-width: 600px) {
+          .stats-row     { grid-template-columns: repeat(2, 1fr); }
+          .testi-grid    { grid-template-columns: 1fr; }
+          .serve-grid    { grid-template-columns: 1fr; }
+          .features-grid { grid-template-columns: 1fr; }
+          .courses-grid  { grid-template-columns: 1fr; }
+          .hero-content h1 { font-size: 2.4rem; }
+          .hero-float-card { display: none; }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- ══════ NAV ══════ -->
+    <nav class="nav" id="navbar">
+        <a class="nav-logo" href="/Home/Home">ABILITY <span>PLACE</span></a>
+        <div class="nav-links">
+            <a class="nav-link active" href="/Home">Home</a>
+            <a class="nav-link" href="/Home/Courses">Courses</a>
+            <a class="nav-link" href="/Home/Classes">Classes</a>
+            <a class="nav-link" href="/Home/Bookings">Bookings</a>
+            <a class="nav-link" href="/Home/Sign Language">Sign Language</a>
+            <a class="nav-link" href="/Home/Centers">Centers</a>
+            <a class="nav-link" href="/Home/About">About Us</a>
+            <a class="nav-link" href="/Home/Support">Support</a>
+            <a class="nav-link" href="/Home/Volunteering">Volunteering</a>
+        </div>
+        <div class="nav-actions">
+            <button class="btn-nav-ghost" onclick="window.location='/Home/Signin'">Sign in</button>
+            <button class="btn-nav-fill" onclick="window.location='/Home/Sign'">Get started</button>
+        </div>
+        <button class="nav-hamburger" id="hamBtn" onclick="toggleMenu()">
+            <span></span><span></span><span></span>
+        </button>
+    </nav>
+
+    <!-- Mobile menu -->
+    <div class="mobile-menu" id="mobileMenu">
+        <a class="mobile-menu-link" href="/Home/Home">🏠 Home</a>
+        <a class="mobile-menu-link" href="/Home/Courses">📚 Courses</a>
+        <a class="mobile-menu-link" href="/Home/Classes">🎓 Classes</a>
+        <a class="mobile-menu-link" href="/Home/Bookings">📅 Bookings</a>
+        <a class="mobile-menu-link" href="/Home/ SignLanguage">🤟 Sign Language</a>
+        <a class="mobile-menu-link" href="/Home/Centers">🏥 Centers</a>
+        <a class="mobile-menu-link" href="/Home/Volunteering">🤝 Volunteer</a>
+        <a class="mobile-menu-link" href="/Home/About">ℹ️ About Us</a>
+        <a class="mobile-menu-link active" href="/Home/News">📰 News</a>
+        <a class="mobile-menu-link" href="/Home/Support">💬 Support</a>
+        <div class="mobile-menu-divider"></div>
+        <a class="mobile-menu-link" href="/Home/Signin" style="color:var(--peach-d);font-weight:600">Sign in</a>
+        <a class="mobile-menu-link" href="/Home/Signup" style="background:var(--peach);border-radius:14px;font-weight:700;text-align:center">Get started →</a>
+    </div>
+
+    <!-- ══════ HERO ══════ -->
+    <section class="hero">
+        <div class="hero-sky">
+            <div class="hero-birds-img"></div>
+            <div class="hero-sky-edge"></div>
+            <div class="hero-float-card">
+                <div class="hfc-icon">🏆</div>
+                <div>
+                    <div class="hfc-t">Achievement unlocked!</div>
+                    <div class="hfc-s">Sign Language Starter ⭐</div>
+                </div>
+            </div>
+        </div>
+
+        <div class="hero-content">
+            <div class="hero-content-inner">
+                <div class="hero-eyebrow">
+                    <div class="hero-dot"></div>
+                    Inclusive Education Platform
+                </div>
+                <h1>Learning has<br /><em>no barriers</em><br />here.</h1>
+                <p>BridgeUp connects people with disabilities, parents, teachers, and coaches to world-class courses, therapy sessions, sign language tools, and a caring community.</p>
+                <div class="hero-btns">
+                    <button class="btn-primary" onclick="window.location='signup.html'">Get started free →</button>
+                    <button class="btn-secondary" onclick="window.location='courses.html'">▶ Explore courses</button>
+                </div>
+                <div class="social-proof">
+                    <div class="sp-avatars">
+                        <span>😊</span><span>🧑‍🦽</span><span>👩‍🏫</span><span>👨‍👩‍👧</span>
+                    </div>
+                    <div class="sp-text">Trusted by <strong>4,200+</strong> learners across the Arab world</div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ══════ A11Y STRIP ══════ -->
+    <div class="a11y-strip">
+        <div class="a11y-item">
+            <div class="a11y-icon" style="background:rgba(178,223,219,.12)">🧠</div>
+            <div><span class="a11y-t">ADHD-Friendly</span><span class="a11y-s">Structured, distraction-free</span></div>
+        </div>
+        <div class="a11y-item">
+            <div class="a11y-icon" style="background:rgba(209,196,233,.12)">🧩</div>
+            <div><span class="a11y-t">Autism Support</span><span class="a11y-s">Predictable, sensory-safe design</span></div>
+        </div>
+        <div class="a11y-item">
+            <div class="a11y-icon" style="background:rgba(255,204,188,.12)">🤟</div>
+            <div><span class="a11y-t">Sign Language</span><span class="a11y-s">ESL, ASL & Arabic SL built-in</span></div>
+        </div>
+        <div class="a11y-item">
+            <div class="a11y-icon" style="background:rgba(178,223,219,.12)">🔊</div>
+            <div><span class="a11y-t">Text to Speech</span><span class="a11y-s">Every page reads aloud</span></div>
+        </div>
+        <div class="a11y-item">
+            <div class="a11y-icon" style="background:rgba(255,204,188,.12)">👁️</div>
+            <div><span class="a11y-t">Screen Reader</span><span class="a11y-s">Full ARIA support</span></div>
+        </div>
+    </div>
+
+    <!-- ══════ STATS ══════ -->
+    <div class="stats-row" id="statsRow">
+        <div class="stat-box reveal"><span class="stat-n" id="s1">0</span><div class="stat-l">Active Learners</div></div>
+        <div class="stat-box reveal"><span class="stat-n" id="s2">0</span><div class="stat-l">Courses Available</div></div>
+        <div class="stat-box reveal"><span class="stat-n" id="s3">0</span><div class="stat-l">Partner Centers</div></div>
+        <div class="stat-box reveal"><span class="stat-n" id="s4">0</span><div class="stat-l">Disabilities Served</div></div>
+        <div class="stat-box reveal"><span class="stat-n" id="s5">0</span><div class="stat-l">Satisfaction Rate</div></div>
+    </div>
+
+    <!-- ══════ FEATURES ══════ -->
+    <section class="features-section">
+        <div class="eyebrow reveal">Everything you need</div>
+        <h2 class="section-title reveal">One platform.<br />Every ability.</h2>
+        <p class="section-sub reveal">Built with accessibility at the core — every feature serves every learner, regardless of their disability.</p>
+        <div class="features-grid">
+            <div class="feat-card reveal" onclick="window.location='courses.html'">
+                <div class="feat-icon" style="background:#E8F5E9">📚</div>
+                <h3>Adaptive Courses</h3>
+                <p>120+ accessible courses with captions, visual aids, and pace control for every learning profile.</p>
+                <span class="feat-arrow">Browse courses →</span>
+            </div>
+            <div class="feat-card reveal" onclick="window.location='classes.html'">
+                <div class="feat-icon" style="background:var(--sky)">🎓</div>
+                <h3>Live Classes</h3>
+                <p>Real-time sessions with instructors — interactive, scheduled, and adapted for your needs.</p>
+                <span class="feat-arrow">See classes →</span>
+            </div>
+            <div class="feat-card reveal" onclick="window.location='bookings.html'">
+                <div class="feat-icon" style="background:var(--peach)">📅</div>
+                <h3>Book Sessions</h3>
+                <p>Private & group therapy with certified professionals — speech, sensory, behavioral, coaching.</p>
+                <span class="feat-arrow">Book now →</span>
+            </div>
+            <div class="feat-card reveal" onclick="window.location='sign-language.html'">
+                <div class="feat-icon" style="background:var(--lav)">🤟</div>
+                <h3>Sign Language</h3>
+                <p>Interactive video lessons and flashcards in Egyptian, Arabic, and American Sign Languages.</p>
+                <span class="feat-arrow">Learn signs →</span>
+            </div>
+            <div class="feat-card reveal" onclick="window.location='centers.html'">
+                <div class="feat-icon" style="background:#FFF9C4">🏥</div>
+                <h3>Partner Centers</h3>
+                <p>Find certified therapy and diagnosis centers near you — sensory, behavioral, speech, and more.</p>
+                <span class="feat-arrow">Find centers →</span>
+            </div>
+            <div class="feat-card reveal" onclick="window.location='support.html'">
+                <div class="feat-icon" style="background:#E8EAF6">🤖</div>
+                <h3>AI Assistant</h3>
+                <p>Our Gemini-powered chatbot available 24/7 for guidance, course help, and accessibility support.</p>
+                <span class="feat-arrow">Chat now →</span>
+            </div>
+            <div class="feat-card reveal" onclick="window.location='volunteering.html'">
+                <div class="feat-icon" style="background:#DCEDC8">🤝</div>
+                <h3>Volunteering</h3>
+                <p>Make a real impact — volunteer as a tutor, sign interpreter, or event assistant.</p>
+                <span class="feat-arrow">Get involved →</span>
+            </div>
+            <div class="feat-card reveal" onclick="window.location='news.html'">
+                <div class="feat-icon" style="background:#FCE4EC">📰</div>
+                <h3>News & Events</h3>
+                <p>Stay updated with research, community events, and inclusive education news.</p>
+                <span class="feat-arrow">Read news →</span>
+            </div>
+        </div>
+    </section>
+
+    <!-- ══════ WHO WE SERVE ══════ -->
+    <section class="serve-section">
+        <div class="eyebrow reveal">Built for everyone</div>
+        <h2 class="section-title reveal">We serve every role.</h2>
+        <p class="section-sub reveal">Four distinct users — each with their own tailored experience and content.</p>
+        <div class="serve-grid">
+            <div class="serve-card reveal">
+                <span class="sc-icon">🧑‍🦽</span>
+                <h3>People with Disabilities</h3>
+                <p>Accessible courses, therapy booking, sign language, and AI support — all adapted to your needs.</p>
+                <div class="serve-tags">
+                    <span class="serve-tag">ADHD</span><span class="serve-tag">Autism</span>
+                    <span class="serve-tag">Deaf</span><span class="serve-tag">Blind</span>
+                    <span class="serve-tag">Mute</span><span class="serve-tag">Down Syndrome</span>
+                </div>
+            </div>
+            <div class="serve-card reveal">
+                <span class="sc-icon">👨‍👩‍👧</span>
+                <h3>Parents & Guardians</h3>
+                <p>Guidance courses, therapist booking, center finder, and a supportive community of families.</p>
+                <div class="serve-tags">
+                    <span class="serve-tag">Parenting guides</span>
+                    <span class="serve-tag">Book sessions</span>
+                    <span class="serve-tag">Community</span>
+                </div>
+            </div>
+            <div class="serve-card reveal">
+                <span class="sc-icon">👩‍🏫</span>
+                <h3>Teachers</h3>
+                <p>Inclusive classroom design courses, accessible resource library, and professional development.</p>
+                <div class="serve-tags">
+                    <span class="serve-tag">Classroom tools</span>
+                    <span class="serve-tag">Resources</span>
+                    <span class="serve-tag">CPD</span>
+                </div>
+            </div>
+            <div class="serve-card reveal">
+                <span class="sc-icon">🏃</span>
+                <h3>Coaches & Therapists</h3>
+                <p>Certified coaching frameworks, behavioral tools, and networking with our partner centers.</p>
+                <div class="serve-tags">
+                    <span class="serve-tag">Frameworks</span>
+                    <span class="serve-tag">Tools</span>
+                    <span class="serve-tag">Networking</span>
+                </div>
+            </div>
+        </div>
+        <div class="disabilities-row reveal">
+            <h3>Conditions we support</h3>
+            <div class="disability-chips">
+                <span class="d-chip">🧠 ADHD</span>
+                <span class="d-chip">🧩 Autism</span>
+                <span class="d-chip">⬇️ Down Syndrome</span>
+                <span class="d-chip">🤟 Deaf</span>
+                <span class="d-chip">🔇 Mute</span>
+                <span class="d-chip">👁️ Blind / Low Vision</span>
+            </div>
+        </div>
+    </section>
+
+    <!-- ══════ COURSES PREVIEW ══════ -->
+    <section class="courses-section">
+        <div class="courses-header">
+            <div>
+                <div class="eyebrow reveal">Learn at your pace</div>
+                <h2 class="section-title reveal">Featured Courses</h2>
+            </div>
+            <button class="btn-secondary reveal" onclick="window.location='courses.html'">See all 120+ →</button>
+        </div>
+        <div class="courses-grid">
+            <div class="course-card reveal">
+                <div class="cc-thumb" style="background:#E8F5E9">🧠<span class="cc-free">🆓 Free</span></div>
+                <div class="cc-body">
+                    <div class="cc-cat">ADHD</div>
+                    <h3>Focus & Flow: ADHD Study Skills</h3>
+                    <div class="cc-meta"><span>📚 12 lessons</span><span>🎯 Beginner</span></div>
+                    <button class="cc-btn" onclick="window.location='courses.html'">Enroll Free</button>
+                </div>
+            </div>
+            <div class="course-card reveal">
+                <div class="cc-thumb" style="background:var(--lav)">🧩<span class="cc-free">🆓 Free</span></div>
+                <div class="cc-body">
+                    <div class="cc-cat">Autism</div>
+                    <h3>Social Skills for Autistic Learners</h3>
+                    <div class="cc-meta"><span>📚 11 lessons</span><span>🎯 All levels</span></div>
+                    <button class="cc-btn" onclick="window.location='courses.html'">Enroll Free</button>
+                </div>
+            </div>
+            <div class="course-card reveal">
+                <div class="cc-thumb" style="background:var(--sky)">🤟<span class="cc-free">🆓 Free</span></div>
+                <div class="cc-body">
+                    <div class="cc-cat">Deaf / Mute</div>
+                    <h3>Egyptian Sign Language — Level 1</h3>
+                    <div class="cc-meta"><span>📚 15 lessons</span><span>🎯 Beginner</span></div>
+                    <button class="cc-btn" onclick="window.location='courses.html'">Enroll Free</button>
+                </div>
+            </div>
+            <div class="course-card reveal">
+                <div class="cc-thumb" style="background:var(--peach)">👨‍👩‍👧<span class="cc-free">🆓 Free</span></div>
+                <div class="cc-body">
+                    <div class="cc-cat">For Parents</div>
+                    <h3>Parenting a Child with ADHD</h3>
+                    <div class="cc-meta"><span>📚 9 lessons</span><span>🎯 All levels</span></div>
+                    <button class="cc-btn" onclick="window.location='courses.html'">Enroll Free</button>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ══════ TESTIMONIALS ══════ -->
+    <section class="testi-section">
+        <div class="eyebrow reveal">Real stories</div>
+        <h2 class="section-title reveal">Real impact.</h2>
+        <p class="section-sub reveal">Hear from the people whose lives BridgeUp has touched.</p>
+        <div class="testi-grid">
+            <div class="testi-card reveal">
+                <div class="testi-stars">★★★★★</div>
+                <span class="testi-quote-mark">"</span>
+                <p class="testi-text">The ADHD-adapted courses changed everything for my son. The visual cues and short lessons keep him engaged like nothing else ever has.</p>
+                <div class="testi-author">
+                    <div class="testi-avatar" style="background:var(--peach)">👩‍👦</div>
+                    <div><div class="testi-name">Sara Mahmoud</div><div class="testi-role">Parent · Cairo</div></div>
+                </div>
+            </div>
+            <div class="testi-card reveal">
+                <div class="testi-stars">★★★★★</div>
+                <span class="testi-quote-mark">"</span>
+                <p class="testi-text">I've been deaf since birth. The sign language module is the clearest, most practical I've ever found — and it's completely free!</p>
+                <div class="testi-author">
+                    <div class="testi-avatar" style="background:var(--sky)">🧑‍🦻</div>
+                    <div><div class="testi-name">Khaled Ashraf</div><div class="testi-role">Learner · Alexandria</div></div>
+                </div>
+            </div>
+            <div class="testi-card reveal">
+                <div class="testi-stars">★★★★★</div>
+                <span class="testi-quote-mark">"</span>
+                <p class="testi-text">As a special education teacher, BridgeUp gives me the tools and community I always needed. The resource library is incredible.</p>
+                <div class="testi-author">
+                    <div class="testi-avatar" style="background:var(--lav)">👩‍🏫</div>
+                    <div><div class="testi-name">Ms. Nour Fathy</div><div class="testi-role">Special Ed Teacher · Giza</div></div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ══════ CTA ══════ -->
+    <section class="cta-section">
+        <h2 class="reveal">Start your journey today.</h2>
+        <p class="reveal">Join thousands of learners, families, and educators already making a difference through BridgeUp.</p>
+        <div class="cta-btns reveal">
+            <button class="btn-primary" onclick="window.location='signup.html'">Create free account →</button>
+            <button class="btn-secondary" onclick="window.location='about.html'">Learn about us</button>
+        </div>
+    </section>
+
+    <!-- ══════ FOOTER ══════ -->
+    <footer class="footer">
+        <div class="footer-grid">
+            <div class="footer-brand">
+                <span class="footer-logo">Ability<span>Place</span></span>
+                <p>Inclusive education and therapy for people with disabilities — ADHD, Autism, Down Syndrome, Deaf, Mute, and Blind.</p>
+                <div class="footer-social">
+                    <a class="footer-soc">𝕏</a>
+                    <a class="footer-soc">in</a>
+                    <a class="footer-soc">f</a>
+                    <a class="footer-soc">📸</a>
+                </div>
+            </div>
+            <div class="footer-col">
+                <h4>Platform</h4>
+                <a href="/Home/Courses">Courses</a>
+                <a href="/Home/.html">Live Classes</a>
+                <a href="/Home/.html">Book Sessions</a>
+                <a href="/Home/SignLanguage">Sign Language</a>
+                <a href="/Home/Centers">Find Centers</a>
+            </div>
+            <div class="footer-col">
+                <h4>Community</h4>
+                <a href="/Home/Volunteering">Volunteer</a>
+                <a href="/Home/News">News & Events</a>
+                <a href="/Home/About">About Us</a>
+                <a href="/Home/Support">Support</a>
+            </div>
+            <div class="footer-col">
+                <h4>Accessibility</h4>
+                <a onclick="showToast('🔊 Text to Speech enabled!')">🔊 Text to Speech</a>
+                <a onclick="document.body.style.fontSize='19px'">A+ Larger text</a>
+                <a onclick="document.body.style.fontSize=''">A− Reset text</a>
+                <a>عربي Arabic</a>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <span>© 2025 BridgeUp. Built with 💛 for every learner.</span>
+            <div class="footer-a11y">
+                <button class="footer-a11y-btn" onclick="showToast('🔊 TTS enabled!')">🔊 TTS</button>
+                <button class="footer-a11y-btn" onclick="document.body.style.fontSize='19px'">A+</button>
+                <button class="footer-a11y-btn" onclick="document.body.style.fontSize=''">A−</button>
+            </div>
+        </div>
+    </footer>
+    <!-- ══════ FLOATING CHATBOT ══════ -->
+    <button class="chatbot-fab" onclick="window.location='support.html'" aria-label="Open AI Assistant">🤖</button>
+    <div class="chatbot-tooltip">AI Assistant</div>
+
+    <!-- Toast -->
+    <div class="toast" id="toast"></div>
+
+    <script>
+        window.addEventListener('mouseover', initLandbot, { once: true });
+        window.addEventListener('touchstart', initLandbot, { once: true });
+        var myLandbot;
+        function initLandbot() {
+          if (!myLandbot) {
+            var s = document.createElement('script');
+            s.type = "module"
+            s.async = true;
+            s.addEventListener('load', function() {
+              myLandbot = new Landbot.Popup({
+                configUrl: 'https://storage.googleapis.com/landbot.online/v3/H-3412628-ZG834BK3N10PWEIA/index.json',
+              });
+            });
+            s.src = 'https://cdn.landbot.io/landbot-3/landbot-3.0.0.mjs';
+            var x = document.getElementsByTagName('script')[0];
+            x.parentNode.insertBefore(s, x);
+          }
+        }
+    </script>
+    <script>
+        // ── NAV SCROLL ──
+        window.addEventListener('scroll', () => {
+          document.getElementById('navbar').classList.toggle('scrolled', window.scrollY > 10)
+        })
+
+        // ── MOBILE MENU ──
+        function toggleMenu() {
+          document.getElementById('mobileMenu').classList.toggle('open')
+        }
+        document.querySelectorAll('.mobile-menu-link').forEach(l => {
+          l.addEventListener('click', () => document.getElementById('mobileMenu').classList.remove('open'))
+        })
+
+        // ── SCROLL REVEAL ──
+        const reveals = document.querySelectorAll('.reveal')
+        const ro = new IntersectionObserver((entries) => {
+          entries.forEach(entry => {
+            if (!entry.isIntersecting) return
+            // Stagger children of same parent
+            const siblings = entry.target.parentElement.querySelectorAll('.reveal')
+            siblings.forEach((el, i) => { el.style.transitionDelay = (i * 75) + 'ms' })
+            entry.target.classList.add('visible')
+          })
+        }, { threshold: 0.1 })
+        reveals.forEach(el => ro.observe(el))
+
+        // ── COUNTER ANIMATION ──
+        const targets  = { s1: 4200, s2: 120, s3: 85, s4: 6,  s5: 98  }
+        const suffixes = { s1: '+',  s2: '+', s3: '',  s4: '', s5: '%' }
+        let counted = false
+        new IntersectionObserver((entries) => {
+          if (!entries[0].isIntersecting || counted) return
+          counted = true
+          Object.entries(targets).forEach(([id, end]) => {
+            const el = document.getElementById(id)
+            let n = 0
+            const step = end / 55
+            const t = setInterval(() => {
+              n = Math.min(n + step, end)
+              el.textContent = Math.floor(n) + (suffixes[id] || '')
+              if (n >= end) clearInterval(t)
+            }, 22)
+          })
+        }, { threshold: 0.3 }).observe(document.getElementById('statsRow'))
+
+        // ── TOAST ──
+        function showToast(msg) {
+          const t = document.getElementById('toast')
+          t.textContent = msg
+          t.classList.add('show')
+          setTimeout(() => t.classList.remove('show'), 2800)
+        }
+    </script>
+</body>
+</html>

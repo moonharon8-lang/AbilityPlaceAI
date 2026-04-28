@@ -1,0 +1,1114 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>AbilityPlace — News & Events</title>
+<link rel="stylesheet" href="/css/global.css"/>
+<style>
+
+/* ══════════════════════════════════════
+   PAGE HERO
+══════════════════════════════════════ */
+.page-hero {
+  padding-top: var(--nav-h);
+  background: var(--sky);
+  position: relative;
+  overflow: hidden;
+  min-height: 260px;
+  display: flex;
+  align-items: flex-end;
+}
+.page-hero-birds {
+  position: absolute;
+  inset: 0;
+            background-image: url('/image/ability4.png');
+  background-size: 50%;
+  background-repeat: no-repeat;
+  background-position: right 5% center;
+  opacity: .6;
+  pointer-events: none;
+}
+.page-hero-wave {
+  position: absolute;
+  bottom: -1px; left: 0; right: 0;
+  line-height: 0; z-index: 2;
+}
+.page-hero-content {
+  position: relative;
+  z-index: 3;
+  padding: 40px 60px 68px;
+}
+.page-hero-content h1 {
+  font-family: 'Playfair Display', serif;
+  font-size: clamp(2rem, 4vw, 3rem);
+  font-weight: 900;
+  letter-spacing: -.025em;
+  color: var(--ink);
+  margin-bottom: 8px;
+}
+.page-hero-content p {
+  font-size: 1rem;
+  color: var(--ink-3);
+  line-height: 1.7;
+  max-width: 500px;
+}
+
+/* ══════════════════════════════════════
+   TOOLBAR
+══════════════════════════════════════ */
+.toolbar {
+  background: #fff;
+  border-bottom: 1px solid rgba(0,0,0,.07);
+  position: sticky;
+  top: var(--nav-h);
+  z-index: 50;
+  padding: 14px 60px;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  flex-wrap: wrap;
+  box-shadow: 0 2px 12px rgba(0,0,0,.04);
+}
+.search-wrap {
+  position: relative;
+  min-width: 220px;
+  max-width: 300px;
+  flex: 1;
+}
+.search-icon {
+  position: absolute;
+  left: 13px; top: 50%;
+  transform: translateY(-50%);
+  font-size: .95rem;
+  color: var(--ink-4);
+  pointer-events: none;
+}
+.search-input {
+  width: 100%;
+  padding: 10px 14px 10px 38px;
+  border: 1.5px solid #E2E8F0;
+  border-radius: var(--radius-pill);
+  font-size: .88rem;
+  color: var(--ink);
+  outline: none;
+  background: var(--off-white);
+  transition: all .2s;
+}
+.search-input:focus {
+  border-color: var(--mint-d);
+  box-shadow: 0 0 0 3px rgba(178,223,219,.3);
+  background: #fff;
+}
+.cat-chips {
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+.cchip {
+  padding: 8px 16px;
+  border-radius: var(--radius-pill);
+  border: 1.5px solid #E2E8F0;
+  background: var(--off-white);
+  font-size: .8rem;
+  font-weight: 600;
+  color: var(--ink-3);
+  cursor: pointer;
+  transition: all .2s;
+  white-space: nowrap;
+}
+.cchip:hover { border-color: var(--mint-d); color: var(--ink); }
+.cchip.active {
+  background: var(--peach);
+  border-color: var(--peach-d);
+  color: var(--ink);
+}
+.toolbar-count {
+  margin-left: auto;
+  font-size: .82rem;
+  color: var(--ink-4);
+  font-weight: 500;
+  white-space: nowrap;
+}
+
+/* ══════════════════════════════════════
+   MAIN LAYOUT
+══════════════════════════════════════ */
+.news-layout {
+  padding: 48px 60px 80px;
+  background: var(--off-white);
+  min-height: 60vh;
+}
+.news-inner {
+  max-width: 1100px;
+  margin: 0 auto;
+}
+
+/* ══════════════════════════════════════
+   FEATURED ARTICLE
+══════════════════════════════════════ */
+.featured-card {
+  background: #fff;
+  border-radius: var(--radius);
+  overflow: hidden;
+  box-shadow: var(--shadow-md);
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  margin-bottom: 48px;
+  cursor: pointer;
+  transition: all .25s;
+  border: 1.5px solid rgba(0,0,0,.06);
+}
+.featured-card:hover {
+  transform: translateY(-4px);
+  box-shadow: var(--shadow-lg);
+  border-color: transparent;
+}
+.featured-thumb {
+  min-height: 280px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 5rem;
+  position: relative;
+}
+.featured-banner-label {
+  position: absolute;
+  top: 16px; left: 16px;
+  padding: 6px 14px;
+  border-radius: var(--radius-pill);
+  background: var(--peach-d);
+  color: #fff;
+  font-size: .72rem;
+  font-weight: 800;
+  letter-spacing: .04em;
+  text-transform: uppercase;
+}
+.featured-body {
+  padding: 36px 32px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+.featured-cat {
+  font-size: .72rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: .07em;
+  color: var(--lav-d);
+  margin-bottom: 10px;
+}
+.featured-body h2 {
+  font-family: 'Playfair Display', serif;
+  font-size: 1.6rem;
+  font-weight: 900;
+  line-height: 1.25;
+  color: var(--ink);
+  margin-bottom: 14px;
+  letter-spacing: -.02em;
+}
+.featured-body p {
+  font-size: .9rem;
+  color: var(--ink-3);
+  line-height: 1.75;
+  margin-bottom: 20px;
+}
+.featured-meta {
+  display: flex;
+  gap: 14px;
+  font-size: .78rem;
+  color: var(--ink-4);
+  flex-wrap: wrap;
+}
+.featured-meta span { display: flex; align-items: center; gap: 4px; }
+
+/* ══════════════════════════════════════
+   NEWS GRID
+══════════════════════════════════════ */
+.section-label {
+  font-size: .78rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: .08em;
+  color: var(--ink-4);
+  margin-bottom: 18px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+.section-label::after {
+  content: '';
+  flex: 1;
+  height: 1px;
+  background: rgba(0,0,0,.08);
+}
+
+.news-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 18px;
+  margin-bottom: 48px;
+}
+.news-card {
+  background: #fff;
+  border-radius: var(--radius);
+  overflow: hidden;
+  border: 1.5px solid rgba(0,0,0,.07);
+  cursor: pointer;
+  transition: all .25s;
+  display: flex;
+  flex-direction: column;
+}
+.news-card:hover {
+  transform: translateY(-5px);
+  box-shadow: var(--shadow-lg);
+  border-color: transparent;
+}
+.news-thumb {
+  height: 130px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 3rem;
+  position: relative;
+  flex-shrink: 0;
+}
+.news-type-badge {
+  position: absolute;
+  top: 10px; left: 10px;
+  padding: 3px 10px;
+  border-radius: var(--radius-pill);
+  font-size: .68rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: .03em;
+  background: rgba(255,255,255,.88);
+  backdrop-filter: blur(4px);
+}
+.news-body {
+  padding: 18px;
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+}
+.news-cat {
+  font-size: .68rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: .06em;
+  color: var(--lav-d);
+  margin-bottom: 6px;
+}
+.news-body h3 {
+  font-weight: 700;
+  font-size: .93rem;
+  line-height: 1.4;
+  margin-bottom: 8px;
+  color: var(--ink);
+  flex: 1;
+}
+.news-body p {
+  font-size: .8rem;
+  color: var(--ink-4);
+  line-height: 1.6;
+  margin-bottom: 14px;
+}
+.news-footer {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  font-size: .74rem;
+  color: var(--ink-5);
+  border-top: 1px solid rgba(0,0,0,.06);
+  padding-top: 12px;
+  margin-top: auto;
+}
+.news-read-more {
+  color: var(--peach-d);
+  font-weight: 700;
+  font-size: .75rem;
+  cursor: pointer;
+  transition: color .2s;
+}
+.news-read-more:hover { color: var(--peach-dd); }
+
+/* ══════════════════════════════════════
+   EVENTS SECTION
+══════════════════════════════════════ */
+.events-list {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  margin-bottom: 48px;
+}
+.event-card {
+  background: #fff;
+  border-radius: var(--radius);
+  border: 1.5px solid rgba(0,0,0,.07);
+  padding: 20px 24px;
+  display: flex;
+  align-items: center;
+  gap: 20px;
+  cursor: pointer;
+  transition: all .2s;
+}
+.event-card:hover {
+  border-color: var(--mint-d);
+  transform: translateX(4px);
+}
+.event-date-box {
+  width: 58px;
+  flex-shrink: 0;
+  text-align: center;
+  background: var(--peach);
+  border-radius: 14px;
+  padding: 10px 8px;
+}
+.event-month {
+  font-size: .65rem;
+  font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: .06em;
+  color: var(--peach-dd);
+  display: block;
+}
+.event-day {
+  font-family: 'Playfair Display', serif;
+  font-size: 1.6rem;
+  font-weight: 900;
+  color: var(--ink);
+  line-height: 1;
+}
+.event-icon { font-size: 1.8rem; flex-shrink: 0; }
+.event-info { flex: 1; }
+.event-info h3 { font-weight: 700; font-size: .95rem; margin-bottom: 4px; }
+.event-info p  { font-size: .8rem; color: var(--ink-4); line-height: 1.5; }
+.event-meta {
+  display: flex;
+  gap: 12px;
+  flex-wrap: wrap;
+  font-size: .75rem;
+  color: var(--ink-4);
+  margin-top: 6px;
+}
+.event-meta span { display: flex; align-items: center; gap: 3px; }
+.event-register {
+  padding: 9px 20px;
+  border-radius: var(--radius-pill);
+  border: none;
+  background: var(--peach);
+  color: var(--ink);
+  font-weight: 700;
+  font-size: .8rem;
+  cursor: pointer;
+  transition: all .2s;
+  white-space: nowrap;
+  flex-shrink: 0;
+}
+.event-register:hover { background: var(--peach-d); color: #fff; }
+
+/* ══════════════════════════════════════
+   NEWSLETTER BANNER
+══════════════════════════════════════ */
+.newsletter-banner {
+  background: linear-gradient(135deg, var(--lav) 0%, var(--peach) 100%);
+  border-radius: var(--radius);
+  padding: 40px 48px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 28px;
+  flex-wrap: wrap;
+}
+.nl-text h3 {
+  font-family: 'Playfair Display', serif;
+  font-size: 1.4rem;
+  font-weight: 900;
+  margin-bottom: 6px;
+}
+.nl-text p {
+  font-size: .88rem;
+  color: var(--ink-3);
+  max-width: 360px;
+  line-height: 1.6;
+}
+.nl-form {
+  display: flex;
+  gap: 10px;
+  flex-wrap: wrap;
+}
+.nl-input {
+  padding: 12px 20px;
+  border-radius: var(--radius-pill);
+  border: 2px solid rgba(255,255,255,.7);
+  background: rgba(255,255,255,.8);
+  font-family: 'DM Sans', sans-serif;
+  font-size: .9rem;
+  color: var(--ink);
+  outline: none;
+  width: 240px;
+  transition: all .2s;
+}
+.nl-input:focus {
+  background: #fff;
+  border-color: var(--peach-d);
+}
+.nl-input::placeholder { color: var(--ink-4); }
+
+/* Empty state */
+.empty-state {
+  text-align: center;
+  padding: 80px 20px;
+  color: var(--ink-4);
+  grid-column: 1/-1;
+}
+.empty-icon { font-size: 3rem; margin-bottom: 16px; }
+.empty-state h3 {
+  font-family: 'Playfair Display', serif;
+  font-size: 1.3rem;
+  font-weight: 700;
+  color: var(--ink-2);
+  margin-bottom: 8px;
+}
+
+/* Skeleton */
+.news-skeleton {
+  border-radius: var(--radius);
+  overflow: hidden;
+  background: #fff;
+  border: 1.5px solid rgba(0,0,0,.06);
+  height: 300px;
+}
+.news-skeleton::before {
+  content: '';
+  display: block;
+  height: 130px;
+  background: linear-gradient(90deg, #f0f0f0 25%, #e8e8e8 50%, #f0f0f0 75%);
+  background-size: 200% 100%;
+  animation: shimmer 1.4s infinite;
+}
+.news-skeleton::after {
+  content: '';
+  display: block;
+  height: 120px;
+  margin: 18px;
+  border-radius: 10px;
+  background: linear-gradient(90deg, #f0f0f0 25%, #e8e8e8 50%, #f0f0f0 75%);
+  background-size: 200% 100%;
+  animation: shimmer 1.4s infinite .2s;
+}
+@@keyframes shimmer {
+  0%   { background-position: 200% 0; }
+  100% { background-position: -200% 0; }
+}
+
+/* ══════════════════════════════════════
+   RESPONSIVE
+══════════════════════════════════════ */
+@@media (max-width: 1100px) {
+  .news-grid { grid-template-columns: repeat(2, 1fr); }
+}
+@@media (max-width: 900px) {
+  .toolbar        { padding: 12px 24px; }
+  .news-layout    { padding: 36px 24px 60px; }
+  .page-hero-content { padding: 36px 24px 60px; }
+  .featured-card  { grid-template-columns: 1fr; }
+  .featured-thumb { min-height: 180px; }
+  .newsletter-banner { flex-direction: column; }
+  .nl-input { width: 100%; }
+  .event-card { flex-wrap: wrap; }
+  .event-register { width: 100%; text-align: center; }
+}
+@@media (max-width: 600px) {
+  .news-grid { grid-template-columns: 1fr; }
+}
+</style>
+</head>
+<body>
+
+<!-- ══════ NAV ══════ -->
+<nav class="nav" id="navbar">
+  <a class="nav-logo" href=".html">Ability<span>Place</span></a>
+  <div class="nav-links">
+            <a class="nav-link active" href="/Home">Home</a>
+            <a class="nav-link" href="/Home/Courses">Courses</a>
+            <a class="nav-link" href="/Home/Classes">Classes</a>
+            <a class="nav-link" href="/Home/Bookings">Bookings</a>
+            <a class="nav-link" href="/Home/Sign Language">Sign Language</a>
+            <a class="nav-link" href="/Home/Centers">Centers</a>
+            <a class="nav-link" href="/Home/About Us</">About Us</a>
+            <a class="nav-link" href="/Home/Support">Support</a>
+            <a class="nav-link" href="/Home/Volunteering">Volunteering</a>
+  </div>
+  <div class="nav-actions">
+    <button class="btn-nav-ghost" onclick="window.location='/Home/Signin'">Sign in</button>
+            <button class="btn-nav-fill" onclick="window.location='/Home/Signup'">Get started</button>
+  </div>
+  <button class="nav-hamburger" id="hamBtn" onclick="toggleMenu()">
+    <span></span><span></span><span></span>
+  </button>
+</nav>
+
+<div class="mobile-menu" id="mobileMenu">
+        <a class="mobile-menu-link" href="/Home/Home">🏠 Home</a>
+        <a class="mobile-menu-link" href="/Home/Courses">📚 Courses</a>
+        <a class="mobile-menu-link" href="/Home/Classes">🎓 Classes</a>
+        <a class="mobile-menu-link" href="/Home/Bookings">📅 Bookings</a>
+        <a class="mobile-menu-link" href="/Home/ SignLanguage">🤟 Sign Language</a>
+        <a class="mobile-menu-link" href="/Home/Centers">🏥 Centers</a>
+        <a class="mobile-menu-link" href="/Home/Volunteering">🤝 Volunteer</a>
+        <a class="mobile-menu-link" href="/Home/About">ℹ️ About Us</a>
+        <a class="mobile-menu-link active" href="/Home/News">📰 News</a>
+        <a class="mobile-menu-link" href="/Home/Support">💬 Support</a>
+  <div class="mobile-menu-divider"></div>
+        <a class="mobile-menu-link" href="/Home/Signin" style="color:var(--peach-d);font-weight:600">Sign in</a>
+        <a class="mobile-menu-link" href="/Home/Signup" style="background:var(--peach);border-radius:14px;font-weight:700;text-align:center">Get started →</a>
+</div>
+
+<!-- ══════ PAGE HERO ══════ -->
+<div class="page-hero">
+  <div class="page-hero-birds"></div>
+  <div class="page-hero-content">
+    <div class="eyebrow">📰 Stay informed</div>
+    <h1>News & Events</h1>
+    <p>The latest research, community stories, platform updates, and upcoming events in inclusive education and disability support.</p>
+  </div>
+  <div class="page-hero-wave">
+    <svg viewBox="0 0 1440 60" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="none" style="width:100%;display:block">
+      <path d="M0,30 C240,60 480,0 720,30 C960,60 1200,0 1440,30 L1440,60 L0,60 Z" fill="rgba(255,255,255,.5)"/>
+      <path d="M0,45 C360,15 720,60 1080,35 C1260,22 1380,50 1440,45 L1440,60 L0,60 Z" fill="var(--off-white)"/>
+    </svg>
+  </div>
+</div>
+
+<!-- ══════ TOOLBAR ══════ -->
+<div class="toolbar">
+  <div class="search-wrap">
+    <span class="search-icon">🔍</span>
+    <input
+      class="search-input"
+      type="text"
+      id="searchInput"
+      placeholder="Search articles…"
+      oninput="handleSearch(this.value)"
+    />
+  </div>
+  <div class="cat-chips">
+    <button class="cchip active" data-cat="" onclick="setFilter('', this)">All</button>
+    <button class="cchip" data-cat="research"  onclick="setFilter('research', this)">🔬 Research</button>
+    <button class="cchip" data-cat="community" onclick="setFilter('community', this)">🤝 Community</button>
+    <button class="cchip" data-cat="platform"  onclick="setFilter('platform', this)">⚡ Platform</button>
+    <button class="cchip" data-cat="awards"    onclick="setFilter('awards', this)">🏆 Awards</button>
+    <button class="cchip" data-cat="events"    onclick="setFilter('events', this)">🗓 Events</button>
+  </div>
+  <span class="toolbar-count" id="toolbarCount"></span>
+</div>
+
+<!-- ══════ MAIN ══════ -->
+<div class="news-layout">
+  <div class="news-inner">
+
+    <!-- Featured -->
+    <div id="featuredWrap"></div>
+
+    <!-- Articles -->
+    <div class="section-label" id="articlesLabel">Latest Articles</div>
+    <!--
+      TODO: fetch from Supabase
+      Table: articles (id, title, excerpt, content, category, emoji,
+                       thumb_color, type ['article'|'announcement'|'story'],
+                       author, read_time_min int, published_at timestamptz,
+                       is_featured bool)
+      Query: supabase.from('articles').select('*')
+               .order('published_at', { ascending: false })
+    -->
+    <div class="news-grid" id="newsGrid">
+      <div class="news-skeleton"></div>
+      <div class="news-skeleton"></div>
+      <div class="news-skeleton"></div>
+      <div class="news-skeleton"></div>
+      <div class="news-skeleton"></div>
+      <div class="news-skeleton"></div>
+    </div>
+
+    <!-- Events -->
+    <div class="section-label" id="eventsLabel">Upcoming Events</div>
+    <!--
+      TODO: fetch from Supabase
+      Table: events (id, title, description, icon_emoji, date, month_label,
+                     location, mode ['online'|'in-person'|'hybrid'],
+                     seats int, is_free bool, registration_url)
+      Query: supabase.from('events').select('*')
+               .gte('date', today).order('date', { ascending: true })
+    -->
+    <div class="events-list" id="eventsList"></div>
+
+    <!-- Newsletter -->
+    <div class="newsletter-banner reveal">
+      <div class="nl-text">
+        <h3>Stay in the loop 📬</h3>
+        <p>Get the latest news, research, and platform updates delivered to your inbox every week.</p>
+      </div>
+      <div class="nl-form">
+        <input class="nl-input" type="email" id="nlEmail" placeholder="your@email.com"/>
+        <button class="btn-primary" onclick="subscribeNewsletter()" style="white-space:nowrap">Subscribe →</button>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<!-- ══════ FOOTER ══════ -->
+    <footer class="footer">
+        <div class="footer-grid">
+            <div class="footer-brand">
+                <span class="footer-logo">Ability<span>Place</span></span>
+                <p>Inclusive education and therapy for people with disabilities — ADHD, Autism, Down Syndrome, Deaf, Mute, and Blind.</p>
+                <div class="footer-social">
+                    <a class="footer-soc">𝕏</a>
+                    <a class="footer-soc">in</a>
+                    <a class="footer-soc">f</a>
+                    <a class="footer-soc">📸</a>
+                </div>
+            </div>
+            <div class="footer-col">
+                <h4>Platform</h4>
+                <a href="/Home/Courses">Courses</a>
+                <a href="/Home/.html">Live Classes</a>
+                <a href="/Home/.html">Book Sessions</a>
+                <a href="/Home/SignLanguage">Sign Language</a>
+                <a href="/Home/Centers">Find Centers</a>
+            </div>
+            <div class="footer-col">
+                <h4>Community</h4>
+                <a href="/Home/Volunteering">Volunteer</a>
+                <a href="/Home/News">News & Events</a>
+                <a href="/Home/About">About Us</a>
+                <a href="/Home/Support">Support</a>
+            </div>
+            <div class="footer-col">
+                <h4>Accessibility</h4>
+                <a onclick="showToast('🔊 Text to Speech enabled!')">🔊 Text to Speech</a>
+                <a onclick="document.body.style.fontSize='19px'">A+ Larger text</a>
+                <a onclick="document.body.style.fontSize=''">A− Reset text</a>
+                <a>عربي Arabic</a>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <span>© 2025 BridgeUp. Built with 💛 for every learner.</span>
+            <div class="footer-a11y">
+                <button class="footer-a11y-btn" onclick="showToast('🔊 TTS enabled!')">🔊 TTS</button>
+                <button class="footer-a11y-btn" onclick="document.body.style.fontSize='19px'">A+</button>
+                <button class="footer-a11y-btn" onclick="document.body.style.fontSize=''">A−</button>
+            </div>
+        </div>
+    </footer>
+<button class="chatbot-fab" onclick="window.location='support.html'" aria-label="Open AI Assistant">🤖</button>
+<div class="chatbot-tooltip">AI Assistant</div>
+<div class="toast" id="toast"></div>
+
+
+    <script>
+        window.addEventListener('mouseover', initLandbot, { once: true });
+        window.addEventListener('touchstart', initLandbot, { once: true });
+        var myLandbot;
+        function initLandbot() {
+          if (!myLandbot) {
+            var s = document.createElement('script');
+            s.type = "module"
+            s.async = true;
+            s.addEventListener('load', function() {
+              myLandbot = new Landbot.Popup({
+                configUrl: 'https://storage.googleapis.com/landbot.online/v3/H-3412628-ZG834BK3N10PWEIA/index.json',
+              });
+            });
+            s.src = 'https://cdn.landbot.io/landbot-3/landbot-3.0.0.mjs';
+            var x = document.getElementsByTagName('script')[0];
+            x.parentNode.insertBefore(s, x);
+          }
+        }
+    </script>
+<script>
+
+// ══════════════════════════════════════
+// PLACEHOLDER DATA
+// TODO: replace with Supabase fetch
+// ══════════════════════════════════════
+const ARTICLES = [
+  {
+    id: 'a1',
+    title: 'New Study: Game-Based Learning Improves ADHD Focus by 40%',
+    excerpt: 'Researchers from Cairo University published findings showing significant improvements in sustained attention for children using structured game-based platforms.',
+    category: 'research',
+    emoji: '🧠',
+    thumb_color: 'var(--lav)',
+    type: 'article',
+    author: 'Dr. Ahmed Samy',
+    read_time_min: 5,
+    published_at: '2025-03-15T10:00:00Z',
+    is_featured: true,
+  },
+  {
+    id: 'a2',
+    title: 'BridgeUp Launches Free Sign Language Program for 500 Families',
+    excerpt: 'Our new ESL program is now available at no cost to families across Egypt, reaching over 500 households in the first week alone.',
+    category: 'community',
+    emoji: '🤟',
+    thumb_color: 'var(--mint)',
+    type: 'announcement',
+    author: 'BridgeUp Team',
+    read_time_min: 3,
+    published_at: '2025-03-10T10:00:00Z',
+    is_featured: false,
+  },
+  {
+    id: 'a3',
+    title: 'BridgeUp Named Top EdTech Platform for Inclusive Education 2025',
+    excerpt: 'We are honored to receive this recognition from the Arab EdTech Association for our commitment to accessible, evidence-based learning.',
+    category: 'awards',
+    emoji: '🏆',
+    thumb_color: '#FFF9C4',
+    type: 'announcement',
+    author: 'Nour Hassan',
+    read_time_min: 2,
+    published_at: '2025-02-28T10:00:00Z',
+    is_featured: false,
+  },
+  {
+    id: 'a4',
+    title: 'New Mobile App Features: TTS Improvements & Offline Mode',
+    excerpt: 'Our latest update brings enhanced Text-to-Speech voices, offline course access, and improved screen reader compatibility across all devices.',
+    category: 'platform',
+    emoji: '📱',
+    thumb_color: 'var(--sky)',
+    type: 'announcement',
+    author: 'Sara Megahed',
+    read_time_min: 4,
+    published_at: '2025-02-20T10:00:00Z',
+    is_featured: false,
+  },
+  {
+    id: 'a5',
+    title: 'BridgeUp Partners with 12 New Centers Across Upper Egypt',
+    excerpt: 'Expanding our network to serve more communities — 12 new certified centers are now bookable through BridgeUp, including sensory and speech therapy.',
+    category: 'community',
+    emoji: '🤝',
+    thumb_color: '#E8EAF6',
+    type: 'article',
+    author: 'Dina Khalil',
+    read_time_min: 4,
+    published_at: '2025-02-12T10:00:00Z',
+    is_featured: false,
+  },
+  {
+    id: 'a6',
+    title: 'Understanding Sensory Processing in Autistic Children',
+    excerpt: 'A deep dive into sensory processing differences in autism and how parents and teachers can create more comfortable environments at home and school.',
+    category: 'research',
+    emoji: '🌈',
+    thumb_color: '#DCEDC8',
+    type: 'article',
+    author: 'Dr. Mona Ibrahim',
+    read_time_min: 7,
+    published_at: '2025-02-05T10:00:00Z',
+    is_featured: false,
+  },
+  {
+    id: 'a7',
+    title: '"BridgeUp Changed Our Lives" — A Parent\'s Story',
+    excerpt: 'Sara, a mother of a 9-year-old with Down Syndrome, shares how BridgeUp helped her find the right therapist, connect with other parents, and watch her son thrive.',
+    category: 'community',
+    emoji: '💛',
+    thumb_color: 'var(--peach)',
+    type: 'story',
+    author: 'Sara Mahmoud',
+    read_time_min: 6,
+    published_at: '2025-01-30T10:00:00Z',
+    is_featured: false,
+  },
+  {
+    id: 'a8',
+    title: 'The Case for Accessible Education: Why It Matters for Everyone',
+    excerpt: 'Accessible education design doesn\'t just help people with disabilities — it improves learning outcomes for all students. Here\'s the evidence.',
+    category: 'research',
+    emoji: '📊',
+    thumb_color: '#E8EAF6',
+    type: 'article',
+    author: 'Omar Fathy',
+    read_time_min: 8,
+    published_at: '2025-01-22T10:00:00Z',
+    is_featured: false,
+  },
+]
+
+const EVENTS = [
+  {
+    id: 'ev1',
+    title: 'International Disability Awareness Day — BridgeUp Community Celebration',
+    description: 'A full-day event featuring workshops, performances, and keynote speakers. Fully accessible, free entry.',
+    icon_emoji: '🌍',
+    day: '21', month_label: 'APR',
+    location: 'Cairo International Conference Center',
+    mode: 'in-person',
+    seats: 300, is_free: true,
+  },
+  {
+    id: 'ev2',
+    title: 'ADHD Parent Support Circle — Monthly Meetup',
+    description: 'A safe, supportive space for parents of children with ADHD to share, learn, and connect. Facilitated by our clinical team.',
+    icon_emoji: '🧠',
+    day: '26', month_label: 'APR',
+    location: 'Online via Zoom',
+    mode: 'online',
+    seats: 40, is_free: true,
+  },
+  {
+    id: 'ev3',
+    title: 'Sign Language Intensive Workshop — Beginner Level',
+    description: '3-hour hands-on workshop covering Egyptian Sign Language basics with a certified instructor. Certificate provided.',
+    icon_emoji: '🤟',
+    day: '03', month_label: 'MAY',
+    location: 'BridgeUp Hub, Maadi, Cairo',
+    mode: 'in-person',
+    seats: 20, is_free: false,
+  },
+  {
+    id: 'ev4',
+    title: 'Inclusive Classroom Design — Teacher Training Day',
+    description: 'Full-day training for teachers on designing sensory-friendly, inclusive classrooms. CPD certificate included.',
+    icon_emoji: '👩‍🏫',
+    day: '10', month_label: 'MAY',
+    location: 'Hybrid — Cairo + Online',
+    mode: 'hybrid',
+    seats: 60, is_free: false,
+  },
+]
+
+const CAT_LABELS = {
+  research: 'Research', community: 'Community',
+  platform: 'Platform Update', awards: 'Awards', events: 'Events',
+}
+const TYPE_COLORS = {
+  article:      { bg: 'rgba(255,255,255,.85)', color: 'var(--lav-d)' },
+  announcement: { bg: 'rgba(255,204,188,.85)', color: '#7B3F00' },
+  story:        { bg: 'rgba(178,223,219,.85)', color: '#00695C' },
+}
+
+// ══════════════════════════════════════
+// STATE
+// ══════════════════════════════════════
+let activeFilter = ''
+let searchQuery  = ''
+
+// ══════════════════════════════════════
+// NAV
+// ══════════════════════════════════════
+window.addEventListener('scroll', () => {
+  document.getElementById('navbar').classList.toggle('scrolled', window.scrollY > 10)
+})
+function toggleMenu() {
+  document.getElementById('mobileMenu').classList.toggle('open')
+}
+document.querySelectorAll('.mobile-menu-link').forEach(l => {
+  l.addEventListener('click', () => document.getElementById('mobileMenu').classList.remove('open'))
+})
+
+// ══════════════════════════════════════
+// FILTER & SEARCH
+// ══════════════════════════════════════
+function setFilter(cat, btn) {
+  activeFilter = cat
+  document.querySelectorAll('.cchip').forEach(c => c.classList.remove('active'))
+  btn.classList.add('active')
+  renderAll()
+}
+
+let searchTimer = null
+function handleSearch(val) {
+  clearTimeout(searchTimer)
+  searchTimer = setTimeout(() => {
+    searchQuery = val.trim().toLowerCase()
+    renderAll()
+  }, 220)
+}
+
+// ══════════════════════════════════════
+// RENDER
+// ══════════════════════════════════════
+function renderAll() {
+  let list = [...ARTICLES]
+  if (activeFilter) list = list.filter(a => a.category === activeFilter)
+  if (searchQuery)  list = list.filter(a =>
+    a.title.toLowerCase().includes(searchQuery) ||
+    a.excerpt.toLowerCase().includes(searchQuery)
+  )
+
+  document.getElementById('toolbarCount').textContent =
+    `${list.length} article${list.length !== 1 ? 's' : ''}`
+
+  // Featured (only show when no filter/search active)
+  const featuredWrap = document.getElementById('featuredWrap')
+  const featured = ARTICLES.find(a => a.is_featured)
+  if (!activeFilter && !searchQuery && featured) {
+    featuredWrap.innerHTML = renderFeatured(featured)
+  } else {
+    featuredWrap.innerHTML = ''
+  }
+
+  // Articles grid (exclude featured when no filter)
+  const showList = (!activeFilter && !searchQuery)
+    ? list.filter(a => !a.is_featured)
+    : list
+
+  const grid  = document.getElementById('newsGrid')
+  const label = document.getElementById('articlesLabel')
+  label.style.display = showList.length ? 'flex' : 'none'
+
+  if (!showList.length) {
+    grid.innerHTML = `<div class="empty-state">
+      <div class="empty-icon">📰</div>
+      <h3>No articles found</h3>
+      <p>Try a different search or filter.</p>
+    </div>`
+    return
+  }
+
+  grid.innerHTML = showList.map(a => renderCard(a)).join('')
+  grid.querySelectorAll('.reveal').forEach((el, i) => {
+    el.style.transitionDelay = (i * 60) + 'ms'
+    revealObserver.observe(el)
+  })
+}
+
+function renderFeatured(a) {
+  return `
+    <div class="featured-card reveal" onclick="openArticle('${a.id}')">
+      <div class="featured-thumb" style="background:${a.thumb_color}">
+        ${a.emoji}
+        <span class="featured-banner-label">✨ Featured</span>
+      </div>
+      <div class="featured-body">
+        <div class="featured-cat">${CAT_LABELS[a.category] || a.category}</div>
+        <h2>${a.title}</h2>
+        <p>${a.excerpt}</p>
+        <div class="featured-meta">
+          <span>✍️ ${a.author}</span>
+          <span>⏱ ${a.read_time_min} min read</span>
+          <span>📅 ${formatDate(a.published_at)}</span>
+        </div>
+      </div>
+    </div>`
+}
+
+function renderCard(a) {
+  const typeStyle = TYPE_COLORS[a.type] || TYPE_COLORS.article
+  return `
+    <div class="news-card reveal" onclick="openArticle('${a.id}')">
+      <div class="news-thumb" style="background:${a.thumb_color}">
+        ${a.emoji}
+        <span class="news-type-badge" style="background:${typeStyle.bg};color:${typeStyle.color}">
+          ${a.type.charAt(0).toUpperCase() + a.type.slice(1)}
+        </span>
+      </div>
+      <div class="news-body">
+        <div class="news-cat">${CAT_LABELS[a.category] || a.category}</div>
+        <h3>${a.title}</h3>
+        <p>${a.excerpt}</p>
+        <div class="news-footer">
+          <span>${formatDate(a.published_at)} · ${a.read_time_min} min</span>
+          <span class="news-read-more">Read more →</span>
+        </div>
+      </div>
+    </div>`
+}
+
+function renderEvents() {
+  const list = document.getElementById('eventsList')
+  const label = document.getElementById('eventsLabel')
+  if (!EVENTS.length) { label.style.display = 'none'; return; }
+
+  list.innerHTML = EVENTS.map(ev => `
+    <div class="event-card reveal">
+      <div class="event-date-box">
+        <span class="event-month">${ev.month_label}</span>
+        <span class="event-day">${ev.day}</span>
+      </div>
+      <div class="event-icon">${ev.icon_emoji}</div>
+      <div class="event-info">
+        <h3>${ev.title}</h3>
+        <p>${ev.description}</p>
+        <div class="event-meta">
+          <span>📍 ${ev.location}</span>
+          <span>🌐 ${ev.mode.charAt(0).toUpperCase() + ev.mode.slice(1)}</span>
+          <span>👥 ${ev.seats} seats</span>
+          <span>${ev.is_free ? '🆓 Free' : '💎 Paid'}</span>
+        </div>
+      </div>
+      <button class="event-register" onclick="registerEvent('${ev.id}', '${ev.title.replace(/'/g,"\\'")}')">
+        ${ev.is_free ? 'Register Free' : 'Get Tickets'}
+      </button>
+    </div>`).join('')
+
+  list.querySelectorAll('.reveal').forEach((el, i) => {
+    el.style.transitionDelay = (i * 70) + 'ms'
+    revealObserver.observe(el)
+  })
+}
+
+// ══════════════════════════════════════
+// ACTIONS
+// ══════════════════════════════════════
+function openArticle(id) {
+  // TODO: navigate to article detail page or open modal
+  const article = ARTICLES.find(a => a.id === id)
+  if (article) showToast(`📰 Opening: "${article.title.slice(0, 40)}…"`)
+}
+
+function registerEvent(id, title) {
+  // TODO: insert into event_registrations in Supabase
+  showToast(`✅ Registered for "${title.slice(0, 35)}…"!`)
+}
+
+function subscribeNewsletter() {
+  const email = document.getElementById('nlEmail').value.trim()
+  if (!email || !email.includes('@@')) {
+    showToast('⚠️ Please enter a valid email.')
+    return
+  }
+  // TODO: insert into newsletter_subscribers in Supabase
+  showToast('📬 Subscribed! Welcome to the loop.')
+  document.getElementById('nlEmail').value = ''
+}
+
+// ══════════════════════════════════════
+// HELPERS
+// ══════════════════════════════════════
+function formatDate(iso) {
+  return new Date(iso).toLocaleDateString('en-EG', {
+    year: 'numeric', month: 'short', day: 'numeric'
+  })
+}
+
+const revealObserver = new IntersectionObserver((entries) => {
+  entries.forEach(entry => {
+    if (!entry.isIntersecting) return
+    entry.target.classList.add('visible')
+  })
+}, { threshold: 0.08 })
+document.querySelectorAll('.reveal').forEach(el => revealObserver.observe(el))
+
+function showToast(msg) {
+  const t = document.getElementById('toast')
+  t.textContent = msg
+  t.classList.add('show')
+  setTimeout(() => t.classList.remove('show'), 2800)
+}
+
+// ══════════════════════════════════════
+// INIT
+// ══════════════════════════════════════
+renderAll()
+renderEvents()
+</script>
+</body>
+</html>

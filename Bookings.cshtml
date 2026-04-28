@@ -1,0 +1,1250 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>AbilityPlace— Bookings</title>
+<link rel="stylesheet" href="~/css/global.css"/>
+<style>
+
+/* ══════════════════════════════════════
+   PAGE HERO
+══════════════════════════════════════ */
+.page-hero {
+  padding-top: var(--nav-h);
+  background: var(--sky);
+  position: relative;
+  overflow: hidden;
+  min-height: 240px;
+  display: flex;
+  align-items: flex-end;
+}
+.page-hero-birds {
+  position: absolute;
+  inset: 0;
+  background-image: url('/image/ability4.png');
+  background-size: 50%;
+  background-repeat: no-repeat;
+  background-position: right 5% center;
+  opacity: .65;
+  pointer-events: none;
+}
+.page-hero-wave {
+  position: absolute;
+  bottom: -1px; left: 0; right: 0;
+  line-height: 0; z-index: 2;
+}
+.page-hero-content {
+  position: relative;
+  z-index: 3;
+  padding: 40px 60px 64px;
+}
+.page-hero-content h1 {
+  font-family: 'Playfair Display', serif;
+  font-size: clamp(2rem, 4vw, 3rem);
+  font-weight: 900;
+  letter-spacing: -.025em;
+  color: var(--ink);
+  margin-bottom: 8px;
+}
+.page-hero-content p {
+  font-size: 1rem;
+  color: var(--ink-3);
+  line-height: 1.7;
+  max-width: 500px;
+}
+
+/* ══════════════════════════════════════
+   BOOKING WRAPPER
+══════════════════════════════════════ */
+.booking-wrapper {
+  padding: 52px 60px 80px;
+  background: var(--off-white);
+  min-height: 70vh;
+}
+.booking-inner {
+  max-width: 1000px;
+  margin: 0 auto;
+}
+
+/* ══════════════════════════════════════
+   PROGRESS STEPPER
+══════════════════════════════════════ */
+.stepper {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 48px;
+  gap: 0;
+}
+.stepper-item {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+  flex: 1;
+  max-width: 160px;
+  position: relative;
+}
+.stepper-item:not(:last-child)::after {
+  content: '';
+  position: absolute;
+  top: 18px;
+  left: 55%;
+  width: 90%;
+  height: 2px;
+  background: #E2E8F0;
+  transition: background .4s;
+  z-index: 0;
+}
+.stepper-item.done:not(:last-child)::after { background: var(--mint-dd); }
+
+.stepper-circle {
+  width: 36px; height: 36px;
+  border-radius: 50%;
+  border: 2px solid #E2E8F0;
+  background: #fff;
+  display: flex; align-items: center; justify-content: center;
+  font-size: .85rem;
+  font-weight: 700;
+  color: var(--ink-4);
+  position: relative; z-index: 1;
+  transition: all .3s;
+}
+.stepper-item.active .stepper-circle {
+  background: var(--peach-d);
+  border-color: var(--peach-d);
+  color: #fff;
+  box-shadow: 0 4px 14px rgba(255,138,101,.4);
+}
+.stepper-item.done .stepper-circle {
+  background: var(--mint-dd);
+  border-color: var(--mint-dd);
+  color: #fff;
+}
+.stepper-label {
+  font-size: .72rem;
+  font-weight: 600;
+  color: var(--ink-5);
+  text-align: center;
+  white-space: nowrap;
+}
+.stepper-item.active .stepper-label { color: var(--peach-d); }
+.stepper-item.done   .stepper-label { color: var(--mint-dd); }
+
+/* ══════════════════════════════════════
+   STEP PANELS
+══════════════════════════════════════ */
+.step-panel { display: none; }
+.step-panel.active { display: block; animation: fadeSlide .3s ease; }
+@@keyframes fadeSlide {
+  from { opacity: 0; transform: translateY(12px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+.panel-title {
+  font-family: 'Playfair Display', serif;
+  font-size: 1.5rem;
+  font-weight: 900;
+  color: var(--ink);
+  margin-bottom: 6px;
+}
+.panel-sub {
+  font-size: .88rem;
+  color: var(--ink-4);
+  margin-bottom: 28px;
+}
+
+/* ══════════════════════════════════════
+   STEP 1 — SERVICE TYPE
+══════════════════════════════════════ */
+.service-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 14px;
+}
+.service-card {
+  background: #fff;
+  border-radius: var(--radius);
+  border: 2px solid #E2E8F0;
+  padding: 28px 24px;
+  cursor: pointer;
+  transition: all .2s;
+  display: flex;
+  align-items: flex-start;
+  gap: 16px;
+}
+.service-card:hover { border-color: var(--mint-d); transform: translateY(-2px); }
+.service-card.selected {
+  border-color: var(--peach-d);
+  background: #fff8f6;
+  box-shadow: 0 0 0 4px rgba(255,138,101,.12);
+}
+.service-icon {
+  width: 52px; height: 52px;
+  border-radius: 16px;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 1.6rem;
+  flex-shrink: 0;
+}
+.service-info h3 { font-weight: 700; font-size: 1rem; margin-bottom: 5px; }
+.service-info p  { font-size: .82rem; color: var(--ink-4); line-height: 1.55; }
+.service-badge {
+  display: inline-block;
+  margin-top: 10px;
+  padding: 3px 10px;
+  border-radius: var(--radius-pill);
+  font-size: .7rem;
+  font-weight: 700;
+  background: var(--sky);
+  color: var(--mint-dd);
+}
+
+/* ══════════════════════════════════════
+   STEP 2 — PROVIDER
+══════════════════════════════════════ */
+.provider-list {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+.provider-card {
+  background: #fff;
+  border-radius: var(--radius);
+  border: 2px solid #E2E8F0;
+  padding: 20px 22px;
+  cursor: pointer;
+  transition: all .2s;
+  display: flex;
+  align-items: center;
+  gap: 16px;
+}
+.provider-card:hover { border-color: var(--mint-d); }
+.provider-card.selected {
+  border-color: var(--peach-d);
+  background: #fff8f6;
+  box-shadow: 0 0 0 4px rgba(255,138,101,.1);
+}
+.provider-avatar {
+  width: 54px; height: 54px;
+  border-radius: 50%;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 1.7rem;
+  flex-shrink: 0;
+}
+.provider-info { flex: 1; }
+.provider-info h3 { font-weight: 700; font-size: .97rem; margin-bottom: 3px; }
+.provider-info p  { font-size: .8rem; color: var(--ink-4); margin-bottom: 6px; }
+.provider-tags { display: flex; flex-wrap: wrap; gap: 6px; }
+.provider-tag {
+  padding: 2px 9px;
+  border-radius: var(--radius-pill);
+  background: var(--sky);
+  font-size: .7rem;
+  font-weight: 700;
+  color: var(--mint-dd);
+}
+.provider-meta {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: 4px;
+  flex-shrink: 0;
+}
+.provider-rating { font-size: .85rem; font-weight: 700; color: var(--ink); }
+.provider-rate   { font-size: .78rem; color: var(--ink-4); }
+.provider-avail  {
+  font-size: .72rem;
+  font-weight: 700;
+  color: #276749;
+  background: #C8E6C9;
+  padding: 2px 9px;
+  border-radius: var(--radius-pill);
+}
+
+/* ══════════════════════════════════════
+   STEP 3 — DATE & TIME
+══════════════════════════════════════ */
+.datetime-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 24px;
+}
+.dt-panel {
+  background: #fff;
+  border-radius: var(--radius);
+  padding: 24px;
+  box-shadow: var(--shadow);
+}
+.dt-panel h3 {
+  font-weight: 700;
+  font-size: .95rem;
+  margin-bottom: 16px;
+  color: var(--ink);
+}
+
+/* Mini calendar */
+.mini-cal { width: 100%; }
+.cal-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 14px;
+}
+.cal-header span {
+  font-weight: 700;
+  font-size: .9rem;
+}
+.cal-nav {
+  background: none;
+  border: none;
+  font-size: 1.1rem;
+  cursor: pointer;
+  color: var(--ink-3);
+  padding: 4px 8px;
+  border-radius: 8px;
+  transition: background .2s;
+}
+.cal-nav:hover { background: var(--sky); }
+.cal-grid {
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+  gap: 3px;
+}
+.cal-day-label {
+  text-align: center;
+  font-size: .68rem;
+  font-weight: 700;
+  color: var(--ink-4);
+  padding-bottom: 6px;
+}
+.cal-day {
+  aspect-ratio: 1;
+  display: flex; align-items: center; justify-content: center;
+  border-radius: 10px;
+  font-size: .8rem;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all .15s;
+  color: var(--ink);
+}
+.cal-day:hover:not(.empty):not(.past) { background: var(--peach); }
+.cal-day.past   { color: var(--ink-5); cursor: default; }
+.cal-day.empty  { cursor: default; }
+.cal-day.today  { font-weight: 800; color: var(--peach-d); }
+.cal-day.selected {
+  background: var(--peach-d);
+  color: #fff;
+  font-weight: 700;
+  box-shadow: 0 3px 10px rgba(255,138,101,.35);
+}
+
+/* Time slots */
+.time-slots {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 8px;
+}
+.time-slot {
+  padding: 10px 6px;
+  border-radius: 12px;
+  border: 1.5px solid #E2E8F0;
+  background: var(--off-white);
+  font-size: .8rem;
+  font-weight: 600;
+  text-align: center;
+  cursor: pointer;
+  transition: all .2s;
+  color: var(--ink-3);
+}
+.time-slot:hover:not(.full) { border-color: var(--mint-d); color: var(--ink); }
+.time-slot.selected {
+  background: var(--mint);
+  border-color: var(--mint-dd);
+  color: #00695C;
+  font-weight: 700;
+}
+.time-slot.full {
+  opacity: .4;
+  cursor: not-allowed;
+  text-decoration: line-through;
+}
+.slot-legend {
+  display: flex;
+  gap: 14px;
+  margin-top: 14px;
+  font-size: .72rem;
+  color: var(--ink-4);
+}
+.legend-dot {
+  width: 10px; height: 10px;
+  border-radius: 3px;
+  display: inline-block;
+  margin-right: 4px;
+}
+
+/* ══════════════════════════════════════
+   STEP 4 — CONFIRM
+══════════════════════════════════════ */
+.confirm-card {
+  background: #fff;
+  border-radius: var(--radius);
+  box-shadow: var(--shadow);
+  overflow: hidden;
+  max-width: 560px;
+  margin: 0 auto;
+}
+.confirm-header {
+  background: linear-gradient(135deg, var(--lav), var(--peach));
+  padding: 28px 28px 24px;
+}
+.confirm-header h3 {
+  font-family: 'Playfair Display', serif;
+  font-size: 1.4rem;
+  font-weight: 900;
+  margin-bottom: 4px;
+}
+.confirm-header p { font-size: .85rem; color: var(--ink-3); }
+.confirm-body { padding: 24px 28px; }
+.confirm-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 12px 0;
+  border-bottom: 1px solid rgba(0,0,0,.06);
+  font-size: .88rem;
+}
+.confirm-row:last-child { border-bottom: none; }
+.confirm-row .cr-label { color: var(--ink-4); font-weight: 500; }
+.confirm-row .cr-value { font-weight: 700; color: var(--ink); text-align: right; max-width: 60%; }
+.confirm-footer { padding: 0 28px 28px; }
+.confirm-note {
+  background: var(--sky);
+  border-radius: 14px;
+  padding: 14px 16px;
+  font-size: .82rem;
+  color: var(--ink-3);
+  margin-bottom: 20px;
+  line-height: 1.6;
+}
+
+/* ══════════════════════════════════════
+   SUCCESS STATE
+══════════════════════════════════════ */
+.success-state {
+  display: none;
+  text-align: center;
+  padding: 60px 24px;
+  animation: fadeSlide .4s ease;
+}
+.success-state.show { display: block; }
+.success-icon {
+  font-size: 4rem;
+  margin-bottom: 20px;
+  animation: popIn .4s cubic-bezier(.175,.885,.32,1.275);
+}
+@@keyframes popIn {
+  from { transform: scale(0); opacity: 0; }
+  to   { transform: scale(1); opacity: 1; }
+}
+.success-state h2 {
+  font-family: 'Playfair Display', serif;
+  font-size: 2rem;
+  font-weight: 900;
+  margin-bottom: 10px;
+}
+.success-state p { color: var(--ink-3); font-size: .95rem; margin-bottom: 32px; max-width: 400px; margin-left: auto; margin-right: auto; }
+
+/* ══════════════════════════════════════
+   NAVIGATION BUTTONS
+══════════════════════════════════════ */
+.step-nav {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-top: 32px;
+  gap: 12px;
+}
+.btn-back {
+  padding: 13px 26px;
+  border-radius: var(--radius-pill);
+  border: 1.5px solid #E2E8F0;
+  background: transparent;
+  font-size: .9rem;
+  font-weight: 600;
+  color: var(--ink-3);
+  transition: all .2s;
+}
+.btn-back:hover { border-color: var(--ink-3); color: var(--ink); }
+.step-hint {
+  font-size: .8rem;
+  color: var(--ink-5);
+}
+
+/* ══════════════════════════════════════
+   ERROR MESSAGE
+══════════════════════════════════════ */
+.step-error {
+  display: none;
+  background: #FFF5F5;
+  border: 1.5px solid #FED7D7;
+  border-radius: 12px;
+  padding: 12px 16px;
+  font-size: .84rem;
+  color: #C53030;
+  margin-top: 14px;
+  font-weight: 500;
+}
+.step-error.show { display: block; }
+
+/* ══════════════════════════════════════
+   RESPONSIVE
+══════════════════════════════════════ */
+@@media (max-width: 900px) {
+  .booking-wrapper  { padding: 36px 24px 60px; }
+  .page-hero-content{ padding: 36px 24px 56px; }
+  .service-grid     { grid-template-columns: 1fr; }
+  .datetime-grid    { grid-template-columns: 1fr; }
+  .stepper          { gap: 0; }
+  .stepper-label    { display: none; }
+}
+@@media (max-width: 560px) {
+  .time-slots { grid-template-columns: repeat(2, 1fr); }
+  .step-nav   { flex-direction: column-reverse; }
+  .btn-back, .btn-primary { width: 100%; justify-content: center; }
+}
+</style>
+</head>
+<body>
+
+<!-- ══════ NAV ══════ -->
+<nav class="nav" id="navbar">
+  <a class="nav-logo" href="home.html">Ability<span>Place</span></a>
+  <div class="nav-links">
+            <a class="nav-link active" href="/Home">Home</a>
+            <a class="nav-link" href="/Home/Courses">Courses</a>
+            <a class="nav-link" href="/Home/Classes">Classes</a>
+            <a class="nav-link" href="/Home/Bookings">Bookings</a>
+            <a class="nav-link" href="/Home/Sign Language">Sign Language</a>
+            <a class="nav-link" href="/Home/Centers">Centers</a>
+            <a class="nav-link" href="/Home/About">About Us</a>
+            <a class="nav-link" href="/Home/Support">Support</a>
+            <a class="nav-link" href="/Home/Volunteering">Volunteering</a>
+  </div>
+  <div class="nav-actions">
+            <button class="btn-nav-ghost" onclick="window.location='/Home/Signin'">Sign in</button>
+    <button class="btn-nav-fill"  onclick="window.location='/Home/Signin'">Get started</button>
+  </div>
+  <button class="nav-hamburger" id="hamBtn" onclick="toggleMenu()">
+    <span></span><span></span><span></span>
+  </button>
+</nav>
+
+<div class="mobile-menu" id="mobileMenu">
+        <a class="mobile-menu-link" href="/Home/Home">🏠 Home</a>
+        <a class="mobile-menu-link" href="/Home/Courses">📚 Courses</a>
+        <a class="mobile-menu-link" href="/Home/Classes">🎓 Classes</a>
+        <a class="mobile-menu-link" href="/Home/Bookings">📅 Bookings</a>
+        <a class="mobile-menu-link" href="/Home/ SignLanguage">🤟 Sign Language</a>
+        <a class="mobile-menu-link" href="/Home/Centers">🏥 Centers</a>
+        <a class="mobile-menu-link" href="/Home/Volunteering">🤝 Volunteer</a>
+        <a class="mobile-menu-link" href="/Home/About">ℹ️ About Us</a>
+        <a class="mobile-menu-link active" href="/Home/News">📰 News</a>
+        <a class="mobile-menu-link" href="/Home/Support">💬 Support</a>
+        <div class="mobile-menu-divider"></div>
+        <a class="mobile-menu-link" href="/Home/Signin" style="color:var(--peach-d);font-weight:600">Sign in</a>
+        <a class="mobile-menu-link" href="/Home/Signup" style="background:var(--peach);border-radius:14px;font-weight:700;text-align:center">Get started →</a>
+</div>
+
+<!-- ══════ PAGE HERO ══════ -->
+<div class="page-hero">
+  <div class="page-hero-birds"></div>
+  <div class="page-hero-content">
+    <div class="eyebrow">📅 Your sessions, your way</div>
+    <h1>Book a Session</h1>
+    <p>Choose a service, pick your provider, and book a time that works for you — therapy, coaching, and center appointments all in one place.</p>
+  </div>
+  <div class="page-hero-wave">
+    <svg viewBox="0 0 1440 60" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="none" style="width:100%;display:block">
+      <path d="M0,30 C240,60 480,0 720,30 C960,60 1200,0 1440,30 L1440,60 L0,60 Z" fill="rgba(255,255,255,.6)"/>
+      <path d="M0,45 C360,15 720,60 1080,35 C1260,22 1380,50 1440,45 L1440,60 L0,60 Z" fill="var(--off-white)"/>
+    </svg>
+  </div>
+</div>
+
+<!-- ══════ BOOKING FLOW ══════ -->
+<div class="booking-wrapper">
+  <div class="booking-inner">
+
+    <!-- Stepper -->
+    <div class="stepper" id="stepper">
+      <div class="stepper-item active" id="st-1">
+        <div class="stepper-circle">1</div>
+        <div class="stepper-label">Service</div>
+      </div>
+      <div class="stepper-item" id="st-2">
+        <div class="stepper-circle">2</div>
+        <div class="stepper-label">Provider</div>
+      </div>
+      <div class="stepper-item" id="st-3">
+        <div class="stepper-circle">3</div>
+        <div class="stepper-label">Date & Time</div>
+      </div>
+      <div class="stepper-item" id="st-4">
+        <div class="stepper-circle">4</div>
+        <div class="stepper-label">Confirm</div>
+      </div>
+    </div>
+
+    <!-- ══ STEP 1: SERVICE ══ -->
+    <div class="step-panel active" id="panel-1">
+      <div class="panel-title">What kind of session?</div>
+      <div class="panel-sub">Pick the type of service you'd like to book.</div>
+
+      <div class="service-grid" id="serviceGrid">
+        <div class="service-card" onclick="selectService(this, 'therapy_1on1')" data-service="therapy_1on1">
+          <div class="service-icon" style="background:var(--lav)">🧠</div>
+          <div class="service-info">
+            <h3>1-on-1 Therapy Session</h3>
+            <p>Private session with a certified therapist — speech, sensory, behavioral, or psychological.</p>
+            <span class="service-badge">Private · 50 min</span>
+          </div>
+        </div>
+        <div class="service-card" onclick="selectService(this, 'group')" data-service="group">
+          <div class="service-icon" style="background:var(--mint)">👥</div>
+          <div class="service-info">
+            <h3>Group Session</h3>
+            <p>Join a small group session for shared learning, social skills practice, or peer support.</p>
+            <span class="service-badge">Group · 60–90 min</span>
+          </div>
+        </div>
+        <div class="service-card" onclick="selectService(this, 'center')" data-service="center">
+          <div class="service-icon" style="background:var(--peach)">🏥</div>
+          <div class="service-info">
+            <h3>Center Appointment</h3>
+            <p>In-person appointment at a partner center for diagnosis, assessment, or specialized therapy.</p>
+            <span class="service-badge">In-person · varies</span>
+          </div>
+        </div>
+        <div class="service-card" onclick="selectService(this, 'coach')" data-service="coach">
+          <div class="service-icon" style="background:#DCEDC8">🏃</div>
+          <div class="service-info">
+            <h3>Coach / Trainer Session</h3>
+            <p>Work with a certified coach on life skills, independence training, or behavioral development.</p>
+            <span class="service-badge">Private · 45 min</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="step-error" id="err-1">Please select a session type to continue.</div>
+
+      <div class="step-nav">
+        <span class="step-hint">Step 1 of 4</span>
+        <button class="btn-primary" onclick="goStep(2)">Next: Choose Provider →</button>
+      </div>
+    </div>
+
+    <!-- ══ STEP 2: PROVIDER ══ -->
+    <div class="step-panel" id="panel-2">
+      <div class="panel-title">Choose your provider</div>
+      <div class="panel-sub" id="providerSub">Select who you'd like to book with.</div>
+
+      <!--
+        TODO: fetch providers from Supabase based on selected service type.
+        Table: providers (id, name, specialty, rating, rate, avatar_emoji,
+                          avatar_bg, tags[], service_types[], available)
+        Query: supabase.from('providers')
+                 .select('*')
+                 .contains('service_types', [selectedService])
+                 .eq('available', true)
+      -->
+      <div class="provider-list" id="providerList">
+        <!-- Populated by renderProviders() based on selected service -->
+      </div>
+
+      <div class="step-error" id="err-2">Please select a provider to continue.</div>
+
+      <div class="step-nav">
+        <button class="btn-back" onclick="goStep(1)">← Back</button>
+        <button class="btn-primary" onclick="goStep(3)">Next: Pick Date & Time →</button>
+      </div>
+    </div>
+
+    <!-- ══ STEP 3: DATE & TIME ══ -->
+    <div class="step-panel" id="panel-3">
+      <div class="panel-title">Pick a date & time</div>
+      <div class="panel-sub">All times shown in Cairo time (EET, UTC+2).</div>
+
+      <div class="datetime-grid">
+        <!-- Calendar -->
+        <div class="dt-panel">
+          <h3>📅 Select a date</h3>
+          <div class="mini-cal">
+            <div class="cal-header">
+              <button class="cal-nav" onclick="prevMonth()">‹</button>
+              <span id="calMonthLabel"></span>
+              <button class="cal-nav" onclick="nextMonth()">›</button>
+            </div>
+            <div class="cal-grid" id="calGrid"></div>
+          </div>
+        </div>
+
+        <!-- Time slots -->
+        <div class="dt-panel">
+          <h3>⏰ Select a time</h3>
+          <div id="timeSlotWrap">
+            <p style="font-size:.85rem;color:var(--ink-4);margin-bottom:16px" id="timePrompt">
+              Please pick a date first.
+            </p>
+            <div class="time-slots" id="timeSlots" style="display:none"></div>
+            <div class="slot-legend" id="slotLegend" style="display:none">
+              <span><span class="legend-dot" style="background:var(--mint)"></span>Available</span>
+              <span><span class="legend-dot" style="background:#E2E8F0"></span>Full</span>
+            </div>
+          </div>
+
+          <!-- Notes -->
+          <div style="margin-top:20px">
+            <label class="form-label">Notes for your provider <span style="color:var(--ink-5)">(optional)</span></label>
+            <textarea
+              class="form-textarea"
+              id="bookingNotes"
+              placeholder="Any special requirements, accessibility needs, or things your provider should know…"
+              rows="3"
+            ></textarea>
+          </div>
+        </div>
+      </div>
+
+      <div class="step-error" id="err-3">Please select both a date and a time slot.</div>
+
+      <div class="step-nav">
+        <button class="btn-back" onclick="goStep(2)">← Back</button>
+        <button class="btn-primary" onclick="goStep(4)">Next: Review & Confirm →</button>
+      </div>
+    </div>
+
+    <!-- ══ STEP 4: CONFIRM ══ -->
+    <div class="step-panel" id="panel-4">
+      <div class="panel-title">Review your booking</div>
+      <div class="panel-sub">Everything look right? Confirm when you're ready.</div>
+
+      <div class="confirm-card">
+        <div class="confirm-header">
+          <h3>Booking Summary</h3>
+          <p>Please review before confirming.</p>
+        </div>
+        <div class="confirm-body">
+          <div class="confirm-row">
+            <span class="cr-label">Service</span>
+            <span class="cr-value" id="sum-service">—</span>
+          </div>
+          <div class="confirm-row">
+            <span class="cr-label">Provider</span>
+            <span class="cr-value" id="sum-provider">—</span>
+          </div>
+          <div class="confirm-row">
+            <span class="cr-label">Date</span>
+            <span class="cr-value" id="sum-date">—</span>
+          </div>
+          <div class="confirm-row">
+            <span class="cr-label">Time</span>
+            <span class="cr-value" id="sum-time">—</span>
+          </div>
+          <div class="confirm-row">
+            <span class="cr-label">Notes</span>
+            <span class="cr-value" id="sum-notes" style="font-style:italic;color:var(--ink-4)">None</span>
+          </div>
+        </div>
+        <div class="confirm-footer">
+          <div class="confirm-note">
+            📧 A confirmation will be sent to your email. You can manage or cancel your booking from your <a href="profile.html" style="color:var(--peach-d);font-weight:700">Profile</a> up to 24 hours before the session.
+          </div>
+          <!--
+            TODO: wire to Supabase on confirm.
+            Insert into bookings table:
+            supabase.from('bookings').insert({
+              user_id:     currentUser.id,
+              provider_id: selectedProvider.id,
+              service:     selectedService,
+              date:        selectedDate,
+              time:        selectedTime,
+              notes:       bookingNotes,
+              status:      'confirmed',
+              created_at:  new Date().toISOString()
+            })
+          -->
+          <button class="btn-primary btn-block" onclick="confirmBooking()">
+            Confirm Booking ✅
+          </button>
+        </div>
+      </div>
+
+      <div class="step-nav" style="justify-content:flex-start">
+        <button class="btn-back" onclick="goStep(3)">← Back</button>
+      </div>
+    </div>
+
+    <!-- ══ SUCCESS ══ -->
+    <div class="success-state" id="successState">
+      <div class="success-icon">🎉</div>
+      <h2>Booking confirmed!</h2>
+      <p id="successMsg">Your session has been booked. Check your email for a confirmation and calendar invite.</p>
+      <div style="display:flex;gap:12px;justify-content:center;flex-wrap:wrap">
+        <button class="btn-primary" onclick="resetBooking()">Book another session</button>
+        <button class="btn-secondary" onclick="window.location='profile.html'">View my bookings</button>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<!-- ══════ FOOTER ══════ -->
+    <footer class="footer">
+        <div class="footer-grid">
+            <div class="footer-brand">
+                <span class="footer-logo">Ability<span>Place</span></span>
+                <p>Inclusive education and therapy for people with disabilities — ADHD, Autism, Down Syndrome, Deaf, Mute, and Blind.</p>
+                <div class="footer-social">
+                    <a class="footer-soc">𝕏</a>
+                    <a class="footer-soc">in</a>
+                    <a class="footer-soc">f</a>
+                    <a class="footer-soc">📸</a>
+                </div>
+            </div>
+            <div class="footer-col">
+                <h4>Platform</h4>
+                <a href="/Home/Courses">Courses</a>
+                <a href="/Home/.html">Live Classes</a>
+                <a href="/Home/.html">Book Sessions</a>
+                <a href="/Home/SignLanguage">Sign Language</a>
+                <a href="/Home/Centers">Find Centers</a>
+            </div>
+            <div class="footer-col">
+                <h4>Community</h4>
+                <a href="/Home/Volunteering">Volunteer</a>
+                <a href="/Home/News">News & Events</a>
+                <a href="/Home/About">About Us</a>
+                <a href="/Home/Support">Support</a>
+            </div>
+            <div class="footer-col">
+                <h4>Accessibility</h4>
+                <a onclick="showToast('🔊 Text to Speech enabled!')">🔊 Text to Speech</a>
+                <a onclick="document.body.style.fontSize='19px'">A+ Larger text</a>
+                <a onclick="document.body.style.fontSize=''">A− Reset text</a>
+                <a>عربي Arabic</a>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <span>© 2025 BridgeUp. Built with 💛 for every learner.</span>
+            <div class="footer-a11y">
+                <button class="footer-a11y-btn" onclick="showToast('🔊 TTS enabled!')">🔊 TTS</button>
+                <button class="footer-a11y-btn" onclick="document.body.style.fontSize='19px'">A+</button>
+                <button class="footer-a11y-btn" onclick="document.body.style.fontSize=''">A−</button>
+            </div>
+        </div>
+    </footer>
+<button class="chatbot-fab" onclick="window.location='support.html'" aria-label="Open AI Assistant">🤖</button>
+<div class="chatbot-tooltip">AI Assistant</div>
+<div class="toast" id="toast"></div>
+
+
+    <script>
+        window.addEventListener('mouseover', initLandbot, { once: true });
+        window.addEventListener('touchstart', initLandbot, { once: true });
+        var myLandbot;
+        function initLandbot() {
+          if (!myLandbot) {
+            var s = document.createElement('script');
+            s.type = "module"
+            s.async = true;
+            s.addEventListener('load', function() {
+              myLandbot = new Landbot.Popup({
+                configUrl: 'https://storage.googleapis.com/landbot.online/v3/H-3412628-ZG834BK3N10PWEIA/index.json',
+              });
+            });
+            s.src = 'https://cdn.landbot.io/landbot-3/landbot-3.0.0.mjs';
+            var x = document.getElementsByTagName('script')[0];
+            x.parentNode.insertBefore(s, x);
+          }
+        }
+    </script>
+<script>
+
+// ══════════════════════════════════════
+// STATE
+// ══════════════════════════════════════
+let currentStep     = 1
+let selectedService  = null
+let selectedProvider = null
+let selectedDate     = null   // Date object
+let selectedTime     = null   // string "HH:MM AM/PM"
+let calYear, calMonth         // currently displayed calendar month
+
+// ══════════════════════════════════════
+// NAV
+// ══════════════════════════════════════
+window.addEventListener('scroll', () => {
+  document.getElementById('navbar').classList.toggle('scrolled', window.scrollY > 10)
+})
+function toggleMenu() {
+  document.getElementById('mobileMenu').classList.toggle('open')
+}
+document.querySelectorAll('.mobile-menu-link').forEach(l => {
+  l.addEventListener('click', () => document.getElementById('mobileMenu').classList.remove('open'))
+})
+
+// ══════════════════════════════════════
+// STEP NAVIGATION
+// ══════════════════════════════════════
+function goStep(n) {
+  if (n > currentStep && !validateStep(currentStep)) return
+
+  // Update stepper UI
+  for (let i = 1; i <= 4; i++) {
+    const st = document.getElementById('st-' + i)
+    st.classList.remove('active', 'done')
+    if (i < n) st.classList.add('done')
+    if (i === n) st.classList.add('active')
+  }
+
+  document.getElementById('panel-' + currentStep).classList.remove('active')
+  document.getElementById('panel-' + n).classList.add('active')
+  currentStep = n
+
+  if (n === 2) renderProviders()
+  if (n === 4) populateSummary()
+
+  window.scrollTo({ top: 0, behavior: 'smooth' })
+}
+
+// ══════════════════════════════════════
+// VALIDATION
+// ══════════════════════════════════════
+function validateStep(step) {
+  hideAllErrors()
+  if (step === 1 && !selectedService) {
+    showError('err-1'); return false
+  }
+  if (step === 2 && !selectedProvider) {
+    showError('err-2'); return false
+  }
+  if (step === 3 && (!selectedDate || !selectedTime)) {
+    showError('err-3'); return false
+  }
+  return true
+}
+function showError(id)  { document.getElementById(id).classList.add('show') }
+function hideAllErrors(){ document.querySelectorAll('.step-error').forEach(e => e.classList.remove('show')) }
+
+// ══════════════════════════════════════
+// STEP 1 — SERVICE SELECTION
+// ══════════════════════════════════════
+function selectService(el, service) {
+  document.querySelectorAll('.service-card').forEach(c => c.classList.remove('selected'))
+  el.classList.add('selected')
+  selectedService  = service
+  selectedProvider = null   // reset downstream
+  selectedDate     = null
+  selectedTime     = null
+}
+
+const SERVICE_LABELS = {
+  therapy_1on1: '1-on-1 Therapy Session',
+  group:        'Group Session',
+  center:       'Center Appointment',
+  coach:        'Coach / Trainer Session',
+}
+
+// ══════════════════════════════════════
+// STEP 2 — PROVIDERS
+// Placeholder data — replace with Supabase query in TODO below
+// ══════════════════════════════════════
+
+// TODO: fetch from Supabase
+// const { data: providers } = await supabase
+//   .from('providers')
+//   .select('*')
+//   .contains('service_types', [selectedService])
+//   .eq('available', true)
+const PROVIDERS_DATA = [
+  {
+    id: 'p1', name: 'Dr. Sara Khalil',
+    specialty: 'Speech & Language Therapist',
+    rating: '4.9 ★', rate: '200 EGP / session',
+    avatar: '👩‍⚕️', bg: 'var(--mint)',
+    tags: ['Speech Therapy', 'Autism', 'ADHD'],
+    service_types: ['therapy_1on1', 'group'],
+  },
+  {
+    id: 'p2', name: 'Coach Ahmed Nasser',
+    specialty: 'Behavioral Coach · ADHD & Autism',
+    rating: '4.8 ★', rate: '180 EGP / session',
+    avatar: '🧑‍🏫', bg: 'var(--lav)',
+    tags: ['ADHD', 'Autism', 'Life Skills'],
+    service_types: ['coach', 'therapy_1on1'],
+  },
+  {
+    id: 'p3', name: 'Dr. Mona Ibrahim',
+    specialty: 'Sensory Integration Therapist',
+    rating: '5.0 ★', rate: '250 EGP / session',
+    avatar: '👩‍🔬', bg: 'var(--peach)',
+    tags: ['Sensory', 'Down Syndrome', 'Autism'],
+    service_types: ['therapy_1on1', 'center'],
+  },
+  {
+    id: 'p4', name: 'Hope Rehab Center',
+    specialty: 'Diagnosis & Multidisciplinary Therapy',
+    rating: '4.7 ★', rate: 'From 300 EGP',
+    avatar: '🏥', bg: '#FFF9C4',
+    tags: ['Diagnosis', 'Speech', 'Behavioral'],
+    service_types: ['center', 'group'],
+  },
+  {
+    id: 'p5', name: 'Ms. Layla Mostafa',
+    specialty: 'Sign Language Instructor & Coach',
+    rating: '4.9 ★', rate: '150 EGP / session',
+    avatar: '🤟', bg: 'var(--sky)',
+    tags: ['Sign Language', 'Deaf', 'Mute'],
+    service_types: ['coach', 'group'],
+  },
+]
+
+function renderProviders() {
+  const list = document.getElementById('providerList')
+  const sub  = document.getElementById('providerSub')
+
+  const filtered = PROVIDERS_DATA.filter(p =>
+    p.service_types.includes(selectedService)
+  )
+
+  sub.textContent = `${filtered.length} provider${filtered.length !== 1 ? 's' : ''} available for ${SERVICE_LABELS[selectedService]}`
+
+  if (filtered.length === 0) {
+    list.innerHTML = `<div style="text-align:center;padding:40px;color:var(--ink-4)">No providers available for this service type right now.</div>`
+    return
+  }
+
+  list.innerHTML = filtered.map(p => `
+    <div class="provider-card" id="pcard-${p.id}" onclick="selectProvider('${p.id}')">
+      <div class="provider-avatar" style="background:${p.bg}">${p.avatar}</div>
+      <div class="provider-info">
+        <h3>${p.name}</h3>
+        <p>${p.specialty}</p>
+        <div class="provider-tags">
+          ${p.tags.map(t => `<span class="provider-tag">${t}</span>`).join('')}
+        </div>
+      </div>
+      <div class="provider-meta">
+        <span class="provider-rating">${p.rating}</span>
+        <span class="provider-rate">${p.rate}</span>
+        <span class="provider-avail">Available</span>
+      </div>
+    </div>
+  `).join('')
+}
+
+function selectProvider(id) {
+  document.querySelectorAll('.provider-card').forEach(c => c.classList.remove('selected'))
+  document.getElementById('pcard-' + id).classList.add('selected')
+  selectedProvider = PROVIDERS_DATA.find(p => p.id === id)
+}
+
+// ══════════════════════════════════════
+// STEP 3 — CALENDAR
+// ══════════════════════════════════════
+const MONTH_NAMES = ['January','February','March','April','May','June',
+                     'July','August','September','October','November','December']
+const DAY_LABELS  = ['Su','Mo','Tu','We','Th','Fr','Sa']
+
+// Simulated fully-booked time slots per date string "YYYY-MM-DD"
+// TODO: fetch from Supabase bookings table to get real availability
+const FULL_SLOTS = {
+  // example: '2025-04-15': ['9:00 AM', '10:00 AM']
+}
+
+function initCalendar() {
+  const now = new Date()
+  calYear  = now.getFullYear()
+  calMonth = now.getMonth()
+  renderCalendar()
+}
+
+function renderCalendar() {
+  document.getElementById('calMonthLabel').textContent = `${MONTH_NAMES[calMonth]} ${calYear}`
+  const grid = document.getElementById('calGrid')
+  const today = new Date()
+  today.setHours(0,0,0,0)
+
+  const firstDay = new Date(calYear, calMonth, 1).getDay()
+  const daysInMonth = new Date(calYear, calMonth + 1, 0).getDate()
+
+  let html = DAY_LABELS.map(d => `<div class="cal-day-label">${d}</div>`).join('')
+
+  // Empty cells before first day
+  for (let i = 0; i < firstDay; i++) {
+    html += `<div class="cal-day empty"></div>`
+  }
+
+  for (let d = 1; d <= daysInMonth; d++) {
+    const date = new Date(calYear, calMonth, d)
+    date.setHours(0,0,0,0)
+    const isPast = date < today
+    const isToday = date.getTime() === today.getTime()
+    const dateStr = formatDate(date)
+    const isSelected = selectedDate && formatDate(selectedDate) === dateStr
+
+    let cls = 'cal-day'
+    if (isPast)    cls += ' past'
+    if (isToday)   cls += ' today'
+    if (isSelected) cls += ' selected'
+
+    const clickHandler = isPast ? '' : `onclick="pickDate(${calYear}, ${calMonth}, ${d})"`
+    html += `<div class="${cls}" ${clickHandler}>${d}</div>`
+  }
+
+  grid.innerHTML = html
+}
+
+function prevMonth() {
+  calMonth--
+  if (calMonth < 0) { calMonth = 11; calYear-- }
+  renderCalendar()
+}
+function nextMonth() {
+  calMonth++
+  if (calMonth > 11) { calMonth = 0; calYear++ }
+  renderCalendar()
+}
+
+function pickDate(y, m, d) {
+  selectedDate = new Date(y, m, d)
+  selectedTime = null
+  renderCalendar()
+  renderTimeSlots()
+}
+
+function renderTimeSlots() {
+  const wrap   = document.getElementById('timeSlots')
+  const prompt = document.getElementById('timePrompt')
+  const legend = document.getElementById('slotLegend')
+  const dateStr = formatDate(selectedDate)
+  const fullSlots = FULL_SLOTS[dateStr] || []
+
+  const ALL_SLOTS = [
+    '9:00 AM','10:00 AM','11:00 AM','12:00 PM',
+    '1:00 PM','2:00 PM','3:00 PM','4:00 PM','5:00 PM',
+  ]
+
+  prompt.style.display = 'none'
+  wrap.style.display   = 'grid'
+  legend.style.display = 'flex'
+
+  wrap.innerHTML = ALL_SLOTS.map(slot => {
+    const isFull     = fullSlots.includes(slot)
+    const isSelected = selectedTime === slot
+    let cls = 'time-slot'
+    if (isFull)     cls += ' full'
+    if (isSelected) cls += ' selected'
+    const click = isFull ? '' : `onclick="pickTime('${slot}')"`
+    return `<div class="${cls}" ${click}>${slot}${isFull ? '<br><span style="font-size:.65rem">Full</span>' : ''}</div>`
+  }).join('')
+}
+
+function pickTime(time) {
+  selectedTime = time
+  renderTimeSlots()
+}
+
+// ══════════════════════════════════════
+// STEP 4 — SUMMARY
+// ══════════════════════════════════════
+function populateSummary() {
+  document.getElementById('sum-service').textContent  = SERVICE_LABELS[selectedService]  || '—'
+  document.getElementById('sum-provider').textContent = selectedProvider ? selectedProvider.name : '—'
+  document.getElementById('sum-date').textContent     = selectedDate
+    ? selectedDate.toLocaleDateString('en-EG', { weekday:'long', year:'numeric', month:'long', day:'numeric' })
+    : '—'
+  document.getElementById('sum-time').textContent  = selectedTime || '—'
+  const notes = document.getElementById('bookingNotes').value.trim()
+  document.getElementById('sum-notes').textContent = notes || 'None'
+  document.getElementById('sum-notes').style.fontStyle = notes ? 'normal' : 'italic'
+}
+
+// ══════════════════════════════════════
+// CONFIRM BOOKING
+// ══════════════════════════════════════
+async function confirmBooking() {
+
+  // ── TODO: insert into Supabase ──────────────────────────
+  // const user = await getUser()
+  // if (!user) { window.location = 'signin.html'; return }
+  //
+  // const { error } = await supabase.from('bookings').insert({
+  //   user_id:     user.id,
+  //   provider_id: selectedProvider.id,
+  //   service:     selectedService,
+  //   date:        selectedDate.toISOString().split('T')[0],
+  //   time:        selectedTime,
+  //   notes:       document.getElementById('bookingNotes').value.trim(),
+  //   status:      'confirmed',
+  // })
+  // if (error) { showToast('❌ ' + error.message); return }
+  // ── END TODO ─────────────────────────────────────────────
+
+  // Show success state
+  document.getElementById('stepper').style.display   = 'none'
+  document.getElementById('panel-4').classList.remove('active')
+  const success = document.getElementById('successState')
+  success.classList.add('show')
+  document.getElementById('successMsg').textContent =
+    `Your ${SERVICE_LABELS[selectedService]} with ${selectedProvider.name} on ${
+      selectedDate.toLocaleDateString('en-EG', { weekday:'long', month:'long', day:'numeric' })
+    } at ${selectedTime} is confirmed. We'll send a reminder 24 hours before.`
+
+  window.scrollTo({ top: 0, behavior: 'smooth' })
+}
+
+// ══════════════════════════════════════
+// RESET
+// ══════════════════════════════════════
+function resetBooking() {
+  selectedService  = null
+  selectedProvider = null
+  selectedDate     = null
+  selectedTime     = null
+  currentStep      = 1
+
+  document.getElementById('successState').classList.remove('show')
+  document.getElementById('stepper').style.display = 'flex'
+  document.querySelectorAll('.service-card').forEach(c => c.classList.remove('selected'))
+
+  for (let i = 1; i <= 4; i++) {
+    const st = document.getElementById('st-' + i)
+    st.classList.remove('active', 'done')
+    document.getElementById('panel-' + i).classList.remove('active')
+  }
+  document.getElementById('st-1').classList.add('active')
+  document.getElementById('panel-1').classList.add('active')
+  window.scrollTo({ top: 0, behavior: 'smooth' })
+}
+
+// ══════════════════════════════════════
+// HELPERS
+// ══════════════════════════════════════
+function formatDate(d) {
+  return `${d.getFullYear()}-${String(d.getMonth()+1).padStart(2,'0')}-${String(d.getDate()).padStart(2,'0')}`
+}
+
+function showToast(msg) {
+  const t = document.getElementById('toast')
+  t.textContent = msg
+  t.classList.add('show')
+  setTimeout(() => t.classList.remove('show'), 2800)
+}
+
+// ── INIT ──
+initCalendar()
+</script>
+</body>
+</html>

@@ -1,0 +1,904 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>AbilityPlace — Support</title>
+<link rel="stylesheet" href="~/css/global.css"/>
+<style>
+
+
+/* ══════════════════════════════════════
+   PAGE HERO
+══════════════════════════════════════ */
+.page-hero {
+  padding-top: var(--nav-h);
+  background: var(--sky);
+  position: relative;
+  overflow: hidden;
+  min-height: 220px;
+  display: flex;
+  align-items: flex-end;
+}
+.page-hero-birds {
+  position: absolute;
+  inset: 0;
+            background-image: url('/image/ability5.png');
+  background-size: 45%;
+  background-repeat: no-repeat;
+  background-position: right 5% center;
+  opacity: .55;
+  pointer-events: none;
+}
+.page-hero-wave {
+  position: absolute;
+  bottom: -1px; left: 0; right: 0;
+  line-height: 0; z-index: 2;
+}
+.page-hero-content {
+  position: relative;
+  z-index: 3;
+  padding: 36px 60px 60px;
+}
+.page-hero-content h1 {
+  font-family: 'Playfair Display', serif;
+  font-size: clamp(2rem, 4vw, 2.8rem);
+  font-weight: 900;
+  letter-spacing: -.025em;
+  color: var(--ink);
+  margin-bottom: 8px;
+}
+.page-hero-content p {
+  font-size: .95rem;
+  color: var(--ink-3);
+  line-height: 1.7;
+  max-width: 480px;
+}
+
+/* ══════════════════════════════════════
+   MAIN LAYOUT
+══════════════════════════════════════ */
+.support-layout {
+  background: var(--off-white);
+  padding: 48px 60px 80px;
+}
+.support-inner {
+  max-width: 1100px;
+  margin: 0 auto;
+  display: grid;
+  grid-template-columns: 1fr 380px;
+  gap: 28px;
+  align-items: start;
+}
+
+/* ══════════════════════════════════════
+   CHAT PANEL
+══════════════════════════════════════ */
+.chat-panel {
+  background: #fff;
+  border-radius: var(--radius);
+  box-shadow: var(--shadow-md);
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  height: 680px;
+  position: sticky;
+  top: calc(var(--nav-h) + 20px);
+}
+
+/* Chat header */
+.chat-header {
+  background: linear-gradient(135deg, var(--lav) 0%, var(--mint) 100%);
+  padding: 18px 22px;
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  flex-shrink: 0;
+}
+.chat-bot-avatar {
+  width: 46px; height: 46px;
+  border-radius: 50%;
+  background: rgba(255,255,255,.3);
+  display: flex; align-items: center; justify-content: center;
+  font-size: 1.5rem;
+  flex-shrink: 0;
+  border: 2px solid rgba(255,255,255,.5);
+}
+.chat-bot-info h3 { font-weight: 700; font-size: .95rem; color: var(--ink); }
+.chat-bot-info p  { font-size: .75rem; color: var(--ink-3); display: flex; align-items: center; gap: 5px; }
+.online-dot {
+  width: 7px; height: 7px;
+  border-radius: 50%;
+  background: #48BB78;
+  display: inline-block;
+  animation: onlinePulse 2s infinite;
+}
+@@keyframes onlinePulse {
+  0%,100% { box-shadow: 0 0 0 0 rgba(72,187,120,.4); }
+  50%      { box-shadow: 0 0 0 5px rgba(72,187,120,0); }
+}
+.chat-tts-btn {
+  margin-left: auto;
+  padding: 6px 12px;
+  border-radius: var(--radius-pill);
+  border: 1.5px solid rgba(255,255,255,.5);
+  background: rgba(255,255,255,.25);
+  font-size: .75rem;
+  font-weight: 700;
+  color: var(--ink);
+  cursor: pointer;
+  transition: all .2s;
+  flex-shrink: 0;
+}
+.chat-tts-btn:hover, .chat-tts-btn.on {
+  background: rgba(255,255,255,.5);
+  border-color: rgba(255,255,255,.8);
+}
+
+/* Messages area */
+.chat-messages {
+  flex: 1;
+  overflow-y: auto;
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  background: #fafafa;
+  scroll-behavior: smooth;
+}
+.chat-messages::-webkit-scrollbar { width: 4px; }
+.chat-messages::-webkit-scrollbar-thumb { background: var(--mint-d); border-radius: 2px; }
+
+/* Message bubbles */
+.msg { display: flex; gap: 9px; max-width: 85%; }
+.msg.bot  { align-self: flex-start; }
+.msg.user { align-self: flex-end; flex-direction: row-reverse; }
+.msg-av {
+  width: 30px; height: 30px;
+  border-radius: 50%;
+  display: flex; align-items: center; justify-content: center;
+  font-size: .95rem;
+  flex-shrink: 0;
+  margin-top: 2px;
+}
+.msg.bot  .msg-av { background: var(--mint); }
+.msg.user .msg-av { background: var(--lav);  }
+.msg-bubble {
+  padding: 11px 15px;
+  border-radius: 18px;
+  font-size: .875rem;
+  line-height: 1.6;
+  color: var(--ink);
+}
+.msg.bot  .msg-bubble {
+  background: #fff;
+  border: 1px solid #E2E8F0;
+  border-bottom-left-radius: 4px;
+}
+.msg.user .msg-bubble {
+  background: var(--lav);
+  border-bottom-right-radius: 4px;
+}
+.msg-time {
+  font-size: .65rem;
+  color: var(--ink-5);
+  margin-top: 4px;
+  display: block;
+  text-align: right;
+}
+.msg.bot .msg-time { text-align: left; }
+
+/* Typing indicator */
+.typing-indicator {
+  display: none;
+  align-self: flex-start;
+  gap: 9px;
+}
+.typing-indicator.show { display: flex; }
+.typing-dots {
+  background: #fff;
+  border: 1px solid #E2E8F0;
+  border-radius: 18px;
+  border-bottom-left-radius: 4px;
+  padding: 12px 16px;
+  display: flex;
+  gap: 4px;
+  align-items: center;
+}
+.typing-dots span {
+  width: 7px; height: 7px;
+  border-radius: 50%;
+  background: var(--ink-5);
+  animation: typingBounce 1.2s infinite ease-in-out;
+}
+.typing-dots span:nth-child(2) { animation-delay: .2s; }
+.typing-dots span:nth-child(3) { animation-delay: .4s; }
+@@keyframes typingBounce {
+  0%,60%,100% { transform: translateY(0); }
+  30%          { transform: translateY(-6px); }
+}
+
+/* Quick replies */
+.quick-replies {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 7px;
+  margin-top: 8px;
+}
+.qr-btn {
+  padding: 6px 13px;
+  border-radius: var(--radius-pill);
+  border: 1.5px solid var(--mint-d);
+  background: rgba(178,223,219,.15);
+  font-size: .78rem;
+  font-weight: 600;
+  color: var(--mint-dd);
+  cursor: pointer;
+  transition: all .2s;
+}
+.qr-btn:hover { background: var(--mint); color: var(--ink); }
+
+/* Input row */
+.chat-input-row {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 14px 16px;
+  border-top: 1px solid #f0f0f0;
+  background: #fff;
+  flex-shrink: 0;
+}
+.chat-input {
+  flex: 1;
+  padding: 11px 16px;
+  border: 1.5px solid #E2E8F0;
+  border-radius: var(--radius-pill);
+  font-family: 'DM Sans', sans-serif;
+  font-size: .875rem;
+  color: var(--ink);
+  outline: none;
+  transition: all .2s;
+  background: var(--off-white);
+}
+.chat-input:focus {
+  border-color: var(--mint-d);
+  box-shadow: 0 0 0 3px rgba(178,223,219,.3);
+  background: #fff;
+}
+.chat-send {
+  width: 42px; height: 42px;
+  border-radius: 50%;
+  border: none;
+  background: var(--peach-d);
+  color: #fff;
+  font-size: 1.1rem;
+  cursor: pointer;
+  transition: all .2s;
+  display: flex; align-items: center; justify-content: center;
+  flex-shrink: 0;
+  box-shadow: 0 3px 10px rgba(255,138,101,.35);
+}
+.chat-send:hover {
+  background: var(--peach-dd);
+  transform: scale(1.08);
+}
+.chat-send:disabled {
+  background: #E2E8F0;
+  box-shadow: none;
+  cursor: not-allowed;
+  transform: none;
+}
+
+/* ══════════════════════════════════════
+   RIGHT SIDEBAR
+══════════════════════════════════════ */
+.sidebar { display: flex; flex-direction: column; gap: 18px; }
+
+/* Contact card */
+.contact-card {
+  background: #fff;
+  border-radius: var(--radius);
+  box-shadow: var(--shadow);
+  overflow: hidden;
+}
+.contact-card-header {
+  background: linear-gradient(135deg, var(--peach) 0%, var(--lav) 100%);
+  padding: 18px 20px;
+}
+.contact-card-header h3 {
+  font-family: 'Playfair Display', serif;
+  font-size: 1.1rem;
+  font-weight: 900;
+  margin-bottom: 2px;
+}
+.contact-card-header p { font-size: .78rem; color: var(--ink-3); }
+.contact-item {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  padding: 14px 20px;
+  border-bottom: 1px solid rgba(0,0,0,.06);
+  cursor: pointer;
+  transition: background .2s;
+}
+.contact-item:last-child { border-bottom: none; }
+.contact-item:hover { background: var(--sky); }
+.contact-icon {
+  width: 38px; height: 38px;
+  border-radius: 12px;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 1.2rem;
+  flex-shrink: 0;
+}
+.contact-label { font-weight: 700; font-size: .85rem; color: var(--ink); }
+.contact-value { font-size: .76rem; color: var(--ink-4); margin-top: 1px; }
+
+/* FAQ card */
+.faq-card {
+  background: #fff;
+  border-radius: var(--radius);
+  box-shadow: var(--shadow);
+  overflow: hidden;
+}
+.faq-card-header {
+  padding: 18px 20px 14px;
+  border-bottom: 1px solid rgba(0,0,0,.06);
+}
+.faq-card-header h3 {
+  font-weight: 700;
+  font-size: .97rem;
+  color: var(--ink);
+}
+.faq-item {
+  border-bottom: 1px solid rgba(0,0,0,.06);
+  overflow: hidden;
+}
+.faq-item:last-child { border-bottom: none; }
+.faq-question {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 14px 20px;
+  cursor: pointer;
+  font-size: .85rem;
+  font-weight: 600;
+  color: var(--ink);
+  transition: background .2s;
+  gap: 10px;
+}
+.faq-question:hover { background: var(--sky); }
+.faq-arrow {
+  font-size: .75rem;
+  color: var(--ink-4);
+  transition: transform .25s;
+  flex-shrink: 0;
+}
+.faq-item.open .faq-arrow { transform: rotate(180deg); }
+.faq-answer {
+  max-height: 0;
+  overflow: hidden;
+  transition: max-height .3s ease, padding .3s ease;
+  font-size: .82rem;
+  color: var(--ink-3);
+  line-height: 1.65;
+  padding: 0 20px;
+}
+.faq-item.open .faq-answer {
+  max-height: 200px;
+  padding: 0 20px 14px;
+}
+
+/* Quick links */
+.quick-links-card {
+  background: #fff;
+  border-radius: var(--radius);
+  box-shadow: var(--shadow);
+  padding: 18px 20px;
+}
+.quick-links-card h3 {
+  font-weight: 700;
+  font-size: .9rem;
+  color: var(--ink);
+  margin-bottom: 12px;
+}
+.ql-btn {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  width: 100%;
+  padding: 10px 14px;
+  border-radius: 12px;
+  border: 1.5px solid #E2E8F0;
+  background: var(--off-white);
+  font-family: 'DM Sans', sans-serif;
+  font-size: .82rem;
+  font-weight: 600;
+  color: var(--ink-2);
+  cursor: pointer;
+  transition: all .2s;
+  margin-bottom: 8px;
+  text-align: left;
+}
+.ql-btn:last-child { margin-bottom: 0; }
+.ql-btn:hover { border-color: var(--mint-d); background: var(--sky); }
+
+/* ══════════════════════════════════════
+   RESPONSIVE
+══════════════════════════════════════ */
+@@media (max-width: 1100px) {
+  .support-inner { grid-template-columns: 1fr; }
+  .chat-panel { position: static; height: 580px; }
+  .sidebar { display: grid; grid-template-columns: 1fr 1fr; }
+}
+@@media (max-width: 900px) {
+  .support-layout { padding: 36px 24px 60px; }
+  .page-hero-content { padding: 32px 24px 56px; }
+}
+@@media (max-width: 600px) {
+  .sidebar { grid-template-columns: 1fr; }
+  .chat-panel { height: 500px; }
+}
+</style>
+</head>
+<body>
+
+<!-- ══════ NAV ══════ -->
+<nav class="nav" id="navbar">
+  <a class="nav-logo" href="home.html">Ability<span>Place</span></a>
+  <div class="nav-links">
+            <a class="nav-link active" href="/Home">Home</a>
+            <a class="nav-link" href="/Home/Courses">Courses</a>
+            <a class="nav-link" href="/Home/Classes">Classes</a>
+            <a class="nav-link" href="/Home/Bookings">Bookings</a>
+            <a class="nav-link" href="/Home/Sign Language">Sign Language</a>
+            <a class="nav-link" href="/Home/Centers">Centers</a>
+            <a class="nav-link" href="/Home/About">About Us</a>
+            <a class="nav-link" href="/Home/Support">Support</a>
+            <a class="nav-link" href="/Home/Volunteering">Volunteering</a>
+  </div>
+  <div class="nav-actions">
+    <button class="btn-nav-ghost" onclick="window.location='/Home/Signin'">Sign in</button>
+            <button class="btn-nav-fill" onclick="window.location='/Home/Signup'">Get started</button>
+  </div>
+  <button class="nav-hamburger" id="hamBtn" onclick="toggleMenu()">
+    <span></span><span></span><span></span>
+  </button>
+</nav>
+
+<div class="mobile-menu" id="mobileMenu">
+        <a class="mobile-menu-link" href="/Home/Home">🏠 Home</a>
+        <a class="mobile-menu-link" href="/Home/Courses">📚 Courses</a>
+        <a class="mobile-menu-link" href="/Home/Classes">🎓 Classes</a>
+        <a class="mobile-menu-link" href="/Home/Bookings">📅 Bookings</a>
+        <a class="mobile-menu-link" href="/Home/ SignLanguage">🤟 Sign Language</a>
+        <a class="mobile-menu-link" href="/Home/Centers">🏥 Centers</a>
+        <a class="mobile-menu-link" href="/Home/Volunteering">🤝 Volunteer</a>
+        <a class="mobile-menu-link" href="/Home/About">ℹ️ About Us</a>
+        <a class="mobile-menu-link active" href="/Home/News">📰 News</a>
+        <a class="mobile-menu-link" href="/Home/Support">💬 Support</a>
+        <div class="mobile-menu-divider"></div>
+        <a class="mobile-menu-link" href="/Home/Signin" style="color:var(--peach-d);font-weight:600">Sign in</a>
+        <a class="mobile-menu-link" href="/Home/Signup" style="background:var(--peach);border-radius:14px;font-weight:700;text-align:center">Get started →</a>
+</div>
+
+<!-- ══════ PAGE HERO ══════ -->
+<div class="page-hero">
+  <div class="page-hero-birds"></div>
+  <div class="page-hero-content">
+    <div class="eyebrow">💬 We're here for you</div>
+    <h1>Support Center</h1>
+    <p>Chat with our AI assistant, browse FAQs, or reach the team directly. We're here 24/7.</p>
+  </div>
+  <div class="page-hero-wave">
+    <svg viewBox="0 0 1440 60" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="none" style="width:100%;display:block">
+      <path d="M0,30 C240,60 480,0 720,30 C960,60 1200,0 1440,30 L1440,60 L0,60 Z" fill="rgba(255,255,255,.5)"/>
+      <path d="M0,45 C360,15 720,60 1080,35 C1260,22 1380,50 1440,45 L1440,60 L0,60 Z" fill="var(--off-white)"/>
+    </svg>
+  </div>
+</div>
+
+<!-- ══════ SUPPORT LAYOUT ══════ -->
+<div class="support-layout">
+  <div class="support-inner">
+
+    <!-- ══ CHAT PANEL ══ -->
+    <div class="chat-panel">
+      <div class="chat-header">
+        <div class="chat-bot-avatar">🤖</div>
+        <div class="chat-bot-info">
+          <h3>BridgeUp Assistant</h3>
+          <p><span class="online-dot"></span> Online · Powered by Gemini</p>
+        </div>
+        <button class="chat-tts-btn" id="ttsBtnChat" onclick="toggleTTS()">🔊 TTS</button>
+      </div>
+
+      <div class="chat-messages" id="chatMessages"></div>
+
+      <!-- Typing indicator -->
+      <div class="typing-indicator" id="typingIndicator">
+        <div class="msg-av">🤖</div>
+        <div class="typing-dots">
+          <span></span><span></span><span></span>
+        </div>
+      </div>
+
+      <div class="chat-input-row">
+        <input
+          class="chat-input"
+          type="text"
+          id="chatInput"
+          placeholder="Ask anything…"
+          onkeydown="if(event.key==='Enter' && !event.shiftKey) sendMessage()"
+          maxlength="500"
+        />
+        <button class="chat-send" id="sendBtn" onclick="sendMessage()" title="Send">➤</button>
+      </div>
+    </div>
+
+    <!-- ══ SIDEBAR ══ -->
+    <div class="sidebar">
+
+      <!-- Quick links -->
+      <div class="quick-links-card">
+        <h3>💡 Quick Questions</h3>
+        <button class="ql-btn" onclick="quickSend('How do I book a therapy session?')">📅 How to book a session?</button>
+        <button class="ql-btn" onclick="quickSend('What courses do you have for autism?')">🧩 Courses for autism</button>
+        <button class="ql-btn" onclick="quickSend('How does text to speech work?')">🔊 Text to Speech help</button>
+        <button class="ql-btn" onclick="quickSend('How do I find a center near me?')">🏥 Find nearby centers</button>
+        <button class="ql-btn" onclick="quickSend('How can I volunteer?')">🤝 Volunteering info</button>
+        <button class="ql-btn" onclick="quickSend('How do I update my profile?')">👤 Account & profile</button>
+      </div>
+
+      <!-- Contact -->
+      <div class="contact-card">
+        <div class="contact-card-header">
+          <h3>Contact Us 📞</h3>
+          <p>Prefer to talk to a human? We've got you.</p>
+        </div>
+        <div class="contact-item" onclick="window.location.href='mailto:support@bridgeup.org'">
+          <div class="contact-icon" style="background:var(--sky)">📧</div>
+          <div><div class="contact-label">Email Support</div><div class="contact-value">support@bridgeup.org</div></div>
+        </div>
+        <div class="contact-item" onclick="window.location.href='tel:+201000000000'">
+          <div class="contact-icon" style="background:var(--mint)">📱</div>
+          <div><div class="contact-label">WhatsApp</div><div class="contact-value">+20 100 000 0000</div></div>
+        </div>
+        <div class="contact-item">
+          <div class="contact-icon" style="background:var(--peach)">⏰</div>
+          <div><div class="contact-label">Working Hours</div><div class="contact-value">Sun–Thu · 9AM–6PM (Cairo time)</div></div>
+        </div>
+      </div>
+
+      <!-- FAQ -->
+      <div class="faq-card">
+        <div class="faq-card-header"><h3>❓ Frequently Asked</h3></div>
+        <div class="faq-item" onclick="toggleFAQ(this)">
+          <div class="faq-question">Is BridgeUp free to use? <span class="faq-arrow">▼</span></div>
+          <div class="faq-answer">Most of our courses and features are completely free. Some premium courses and therapy sessions are paid, but we'll always show you the price clearly before you commit.</div>
+        </div>
+        <div class="faq-item" onclick="toggleFAQ(this)">
+          <div class="faq-question">Are the therapists certified? <span class="faq-arrow">▼</span></div>
+          <div class="faq-answer">Yes. All therapists and coaches on BridgeUp are verified and certified by the Egyptian Ministry of Health or equivalent bodies. We review credentials before onboarding anyone.</div>
+        </div>
+        <div class="faq-item" onclick="toggleFAQ(this)">
+          <div class="faq-question">Can I cancel a booking? <span class="faq-arrow">▼</span></div>
+          <div class="faq-answer">You can cancel a session up to 24 hours before it starts at no charge. Cancellations within 24 hours may incur a partial fee depending on the provider's policy.</div>
+        </div>
+        <div class="faq-item" onclick="toggleFAQ(this)">
+          <div class="faq-question">Is my data safe? <span class="faq-arrow">▼</span></div>
+          <div class="faq-answer">Yes. All data is encrypted and stored securely. We never sell personal data. You can delete your account and all associated data at any time from your profile settings.</div>
+        </div>
+        <div class="faq-item" onclick="toggleFAQ(this)">
+          <div class="faq-question">What languages are supported? <span class="faq-arrow">▼</span></div>
+          <div class="faq-answer">BridgeUp is currently available in English and Arabic. French is coming soon. You can set your preferred language in your profile settings.</div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</div>
+
+<!-- ══════ FOOTER ══════ -->
+    <footer class="footer">
+        <div class="footer-grid">
+            <div class="footer-brand">
+                <span class="footer-logo">Ability<span>Place</span></span>
+                <p>Inclusive education and therapy for people with disabilities — ADHD, Autism, Down Syndrome, Deaf, Mute, and Blind.</p>
+                <div class="footer-social">
+                    <a class="footer-soc">𝕏</a>
+                    <a class="footer-soc">in</a>
+                    <a class="footer-soc">f</a>
+                    <a class="footer-soc">📸</a>
+                </div>
+            </div>
+            <div class="footer-col">
+                <h4>Platform</h4>
+                <a href="/Home/Courses">Courses</a>
+                <a href="/Home/.html">Live Classes</a>
+                <a href="/Home/.html">Book Sessions</a>
+                <a href="/Home/SignLanguage">Sign Language</a>
+                <a href="/Home/Centers">Find Centers</a>
+            </div>
+            <div class="footer-col">
+                <h4>Community</h4>
+                <a href="/Home/Volunteering">Volunteer</a>
+                <a href="/Home/News">News & Events</a>
+                <a href="/Home/About">About Us</a>
+                <a href="/Home/Support">Support</a>
+            </div>
+            <div class="footer-col">
+                <h4>Accessibility</h4>
+                <a onclick="showToast('🔊 Text to Speech enabled!')">🔊 Text to Speech</a>
+                <a onclick="document.body.style.fontSize='19px'">A+ Larger text</a>
+                <a onclick="document.body.style.fontSize=''">A− Reset text</a>
+                <a>عربي Arabic</a>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <span>© 2025 BridgeUp. Built with 💛 for every learner.</span>
+            <div class="footer-a11y">
+                <button class="footer-a11y-btn" onclick="showToast('🔊 TTS enabled!')">🔊 TTS</button>
+                <button class="footer-a11y-btn" onclick="document.body.style.fontSize='19px'">A+</button>
+                <button class="footer-a11y-btn" onclick="document.body.style.fontSize=''">A−</button>
+            </div>
+        </div>
+    </footer>
+<!-- Chatbot FAB hidden on support page — already on this page -->
+<div class="toast" id="toast"></div>
+
+
+    <script>
+        window.addEventListener('mouseover', initLandbot, { once: true });
+        window.addEventListener('touchstart', initLandbot, { once: true });
+        var myLandbot;
+        function initLandbot() {
+          if (!myLandbot) {
+            var s = document.createElement('script');
+            s.type = "module"
+            s.async = true;
+            s.addEventListener('load', function() {
+              myLandbot = new Landbot.Popup({
+                configUrl: 'https://storage.googleapis.com/landbot.online/v3/H-3412628-ZG834BK3N10PWEIA/index.json',
+              });
+            });
+            s.src = 'https://cdn.landbot.io/landbot-3/landbot-3.0.0.mjs';
+            var x = document.getElementsByTagName('script')[0];
+            x.parentNode.insertBefore(s, x);
+          }
+        }
+    </script>
+<script>
+// ══════════════════════════════════════
+// GEMINI API KEY
+// ══════════════════════════════════════
+// TODO: replace with your real Gemini API key
+// Get it from: https://aistudio.google.com/app/apikey
+// IMPORTANT: In production, never expose API keys in frontend code.
+// Route calls through a Supabase Edge Function or backend instead.
+// Example Edge Function: supabase/functions/chat/index.ts
+const GEMINI_API_KEY = 'YOUR_GEMINI_API_KEY_HERE'
+const GEMINI_URL = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key=${GEMINI_API_KEY}`
+
+// System prompt — tells Gemini who it is and how to behave
+const SYSTEM_PROMPT = `You are the BridgeUp AI assistant — a warm, knowledgeable, and accessible support bot for an inclusive education platform in Egypt and the Arab world.
+
+BridgeUp serves:
+- People with disabilities (ADHD, Autism, Down Syndrome, Deaf, Mute, Blind/Low Vision)
+- Parents and guardians of disabled individuals
+- Special education teachers
+- Coaches and therapists
+
+BridgeUp offers:
+- Self-paced accessible courses
+- Live classes with certified instructors
+- Therapy and coaching session bookings
+- Egyptian, Arabic, and American Sign Language lessons
+- A network of 85+ partner centers across Egypt
+- Volunteering opportunities
+- AI-powered support (that's you!)
+- Text to speech and other accessibility features
+
+Your personality:
+- Warm, calm, and encouraging — never clinical or cold
+- Simple, clear language (avoid jargon)
+- Supportive and patient
+- Brief answers unless more detail is needed
+- Always offer to help further
+
+If someone asks something you don't know, say so honestly and suggest they contact the team at support@bridgeup.org or call +20 100 000 0000.
+
+Respond in the same language the user writes in (Arabic or English). Keep responses concise — 1-3 short paragraphs maximum unless the user asks for more detail.`
+
+// ══════════════════════════════════════
+// STATE
+// ══════════════════════════════════════
+let conversationHistory = []   // { role: 'user'|'model', parts: [{text}] }
+let ttsOn = false
+let isLoading = false
+
+// ══════════════════════════════════════
+// NAV
+// ══════════════════════════════════════
+window.addEventListener('scroll', () => {
+  document.getElementById('navbar').classList.toggle('scrolled', window.scrollY > 10)
+})
+function toggleMenu() {
+  document.getElementById('mobileMenu').classList.toggle('open')
+}
+document.querySelectorAll('.mobile-menu-link').forEach(l => {
+  l.addEventListener('click', () => document.getElementById('mobileMenu').classList.remove('open'))
+})
+
+// ══════════════════════════════════════
+// CHAT INIT — welcome message
+// ══════════════════════════════════════
+function initChat() {
+  const welcomeMsg = `Hello! 👋 I'm the BridgeUp assistant, powered by Gemini AI. I can help you with:\n\n• Finding the right course for your needs\n• Booking therapy or coaching sessions\n• Learning about sign language\n• Finding centers near you\n• Any other questions about BridgeUp\n\nHow can I help you today?`
+  addMessage('bot', welcomeMsg)
+
+  // Quick reply suggestions
+  const qrDiv = document.createElement('div')
+  qrDiv.className = 'quick-replies'
+  qrDiv.innerHTML = [
+    '📚 Browse courses', '📅 Book a session',
+    '🤟 Sign language', '🏥 Find a center'
+  ].map(label => `<button class="qr-btn" onclick="quickSend('${label}')">${label}</button>`).join('')
+
+  document.getElementById('chatMessages').appendChild(qrDiv)
+  scrollBottom()
+}
+
+// ══════════════════════════════════════
+// SEND MESSAGE
+// ══════════════════════════════════════
+async function sendMessage() {
+  const input = document.getElementById('chatInput')
+  const text  = input.value.trim()
+  if (!text || isLoading) return
+
+  input.value = ''
+  isLoading = true
+  document.getElementById('sendBtn').disabled = true
+
+  addMessage('user', text)
+  showTyping(true)
+
+  // Add to history
+  conversationHistory.push({ role: 'user', parts: [{ text }] })
+
+  try {
+    const response = await callGemini(text)
+    showTyping(false)
+    addMessage('bot', response)
+    conversationHistory.push({ role: 'model', parts: [{ text: response }] })
+    if (ttsOn) speak(response)
+  } catch (err) {
+    showTyping(false)
+    const errMsg = GEMINI_API_KEY === 'YOUR_GEMINI_API_KEY_HERE'
+      ? '🔑 Gemini API key not set yet. Add your key to support.html to enable AI responses. In the meantime, contact us at support@bridgeup.org!'
+      : '😕 Something went wrong. Please try again or contact our team at support@bridgeup.org.'
+    addMessage('bot', errMsg)
+  }
+
+  isLoading = false
+  document.getElementById('sendBtn').disabled = false
+  document.getElementById('chatInput').focus()
+}
+
+// ══════════════════════════════════════
+// GEMINI API CALL
+// ══════════════════════════════════════
+async function callGemini(userText) {
+  const body = {
+    system_instruction: {
+      parts: [{ text: SYSTEM_PROMPT }]
+    },
+    contents: conversationHistory,
+    generationConfig: {
+      temperature: 0.7,
+      maxOutputTokens: 400,
+    }
+  }
+
+  const res = await fetch(GEMINI_URL, {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify(body),
+  })
+
+  if (!res.ok) throw new Error(`Gemini API error: ${res.status}`)
+  const data = await res.json()
+  return data.candidates?.[0]?.content?.parts?.[0]?.text || 'Sorry, I couldn\'t generate a response.'
+}
+
+// ══════════════════════════════════════
+// QUICK SEND
+// ══════════════════════════════════════
+function quickSend(text) {
+  document.getElementById('chatInput').value = text
+  sendMessage()
+}
+
+// ══════════════════════════════════════
+// ADD MESSAGE TO UI
+// ══════════════════════════════════════
+function addMessage(role, text) {
+  const messages = document.getElementById('chatMessages')
+  const div = document.createElement('div')
+  div.className = `msg ${role}`
+
+  const now = new Date().toLocaleTimeString('en-EG', { hour: '2-digit', minute: '2-digit' })
+
+  // Convert newlines to <br> and URLs to links
+  const formatted = text
+    .replace(/&/g, '&amp;')
+    .replace(/</g, '&lt;')
+    .replace(/>/g, '&gt;')
+    .replace(/\n/g, '<br>')
+    .replace(/(https?:\/\/[^\s<]+)/g, '<a href="$1" target="_blank" style="color:var(--peach-d);font-weight:600">$1</a>')
+
+  div.innerHTML = `
+    <div class="msg-av">${role === 'bot' ? '🤖' : '😊'}</div>
+    <div>
+      <div class="msg-bubble">${formatted}</div>
+      <span class="msg-time">${now}</span>
+    </div>`
+
+  messages.appendChild(div)
+  scrollBottom()
+}
+
+function scrollBottom() {
+  const msgs = document.getElementById('chatMessages')
+  msgs.scrollTop = msgs.scrollHeight
+}
+
+function showTyping(show) {
+  document.getElementById('typingIndicator').classList.toggle('show', show)
+  if (show) scrollBottom()
+}
+
+// ══════════════════════════════════════
+// TTS
+// ══════════════════════════════════════
+function toggleTTS() {
+  ttsOn = !ttsOn
+  document.getElementById('ttsBtnChat').classList.toggle('on', ttsOn)
+  showToast(ttsOn ? '🔊 Text to Speech enabled' : '🔇 Text to Speech disabled')
+}
+
+function speak(text) {
+  if (!window.speechSynthesis) return
+  window.speechSynthesis.cancel()
+  const u = new SpeechSynthesisUtterance(text.replace(/<[^>]*>/g, ''))
+  u.lang = 'en-US'
+  u.rate = 0.9
+  window.speechSynthesis.speak(u)
+}
+
+// ══════════════════════════════════════
+// FAQ ACCORDION
+// ══════════════════════════════════════
+function toggleFAQ(item) {
+  const isOpen = item.classList.contains('open')
+  document.querySelectorAll('.faq-item').forEach(i => i.classList.remove('open'))
+  if (!isOpen) item.classList.add('open')
+}
+
+// ══════════════════════════════════════
+// TOAST
+// ══════════════════════════════════════
+function showToast(msg) {
+  const t = document.getElementById('toast')
+  t.textContent = msg
+  t.classList.add('show')
+  setTimeout(() => t.classList.remove('show'), 2800)
+}
+
+// ══════════════════════════════════════
+// INIT
+// ══════════════════════════════════════
+initChat()
+</script>
+</body>
+</html>

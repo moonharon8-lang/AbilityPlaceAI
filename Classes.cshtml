@@ -1,0 +1,191 @@
+<!DOCTYPE html>
+    <html>
+    <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>ABILITY PLACE</title>
+    <link rel="stylesheet" href="~/css/global.css" />
+    </head>
+    <body>
+    <!-- ══════ NAV ══════ -->
+    <nav class="nav" id="navbar">
+        <a class="nav-logo" href="/Home/Home">ABILITY <span>PLACE</span></a>
+        <div class="nav-links">
+            <a class="nav-link active" href="/Home">Home</a>
+            <a class="nav-link" href="/Home/Courses">Courses</a>
+            <a class="nav-link" href="/Home/Classes">Classes</a>
+            <a class="nav-link" href="/Home/Bookings">Bookings</a>
+            <a class="nav-link" href="/Home/Sign Language">Sign Language</a>
+            <a class="nav-link" href="/Home/Centers">Centers</a>
+            <a class="nav-link" href="/Home/About">About Us</a>
+            <a class="nav-link" href="/Home/Support">Support</a>
+            <a class="nav-link" href="/Home/Volunteering">Volunteering</a>
+        </div>
+        <div class="nav-actions">
+            <button class="btn-nav-ghost" onclick="window.location='/Home/Signin'">Sign in</button>
+            <button class="btn-nav-fill" onclick="window.location='/Home/Sign'">Get started</button>
+        </div>
+        <button class="nav-hamburger" id="hamBtn" onclick="toggleMenu()">
+            <span></span><span></span><span></span>
+        </button>
+    </nav>
+
+    <!-- Mobile menu -->
+    <div class="mobile-menu" id="mobileMenu">
+        <a class="mobile-menu-link" href="/Home/Home">🏠 Home</a>
+        <a class="mobile-menu-link" href="/Home/Courses">📚 Courses</a>
+        <a class="mobile-menu-link" href="/Home/Classes">🎓 Classes</a>
+        <a class="mobile-menu-link" href="/Home/Bookings">📅 Bookings</a>
+        <a class="mobile-menu-link" href="/Home/ SignLanguage">🤟 Sign Language</a>
+        <a class="mobile-menu-link" href="/Home/Centers">🏥 Centers</a>
+        <a class="mobile-menu-link" href="/Home/Volunteering">🤝 Volunteer</a>
+        <a class="mobile-menu-link" href="/Home/About">ℹ️ About Us</a>
+        <a class="mobile-menu-link active" href="/Home/News">📰 News</a>
+        <a class="mobile-menu-link" href="/Home/Support">💬 Support</a>
+        <div class="mobile-menu-divider"></div>
+        <a class="mobile-menu-link" href="/Home/Signin" style="color:var(--peach-d);font-weight:600">Sign in</a>
+        <a class="mobile-menu-link" href="/Home/Signup" style="background:var(--peach);border-radius:14px;font-weight:700;text-align:center">Get started →</a>
+    </div>
+
+
+
+    @model List<Ability_Place.Models.Lesson>
+
+    <div class="container mt-5">
+        <div class="text-center mb-5">
+            <h2 class="display-5 fw-bold text-primary">Lessons</h2>
+            <p class="text-muted">View Courses</p>
+        </div>
+
+        <div class="row">
+            @if (Model != null && Model.Any())
+            {
+                @foreach (var item in Model)
+
+                {
+
+                    <div class="col-lg-6 mb-4">
+                        <div class="card shadow-sm h-100 border-0" style="border-radius: 15px; overflow: hidden;">
+                            <div class="ratio ratio-16x9">
+                                <video controls width="100%" preload="metadata" style="border-radius: 15px; box-shadow: var(--shadow);">
+                                    <source src="@item.VideoUrl" type="video/mp4">
+                                   Unavailable
+                                </video>
+                                <script>
+                                    console.log("@item")
+                                </script>
+
+                            </div>
+
+                            <div class="card-body bg-light">
+                                <div class="d-flex align-items-center mb-2">
+                                    <span class="badge bg-primary me-2">Videos</span>
+                                    <h5 class="card-title m-0 fw-bold">@item.Title</h5>
+                                </div>
+                                @if (!string.IsNullOrEmpty(item.Transcript))
+                                {
+                                    <p class="card-text text-secondary small">
+                                        <i class="bi bi-info-circle me-1"></i> @item.Transcript
+                                    </p>
+                                }
+                            </div>
+
+                            <div class="card-footer bg-white border-0 py-3">
+                                <button class="btn btn-sm btn-outline-secondary w-100">  Download Attachments</button>
+                            </div>
+                        </div>
+                    </div>
+                }
+            }
+            else
+            {
+                <div class="col-12 text-center py-5">
+                    <div class="alert alert-info">
+                        Unavailable
+                    </div>
+                </div>
+            }
+        </div>
+    </div>
+
+    <style>
+        .card {
+            transition: transform 0.3s ease;
+        }
+
+            .card:hover {
+                transform: translateY(-5px);
+            }
+
+        video {
+            background-color: #000;
+        }
+    </style>
+
+    <footer class="footer">
+        <div class="footer-grid">
+            <div class="footer-brand">
+                <span class="footer-logo">Ability<span>Place</span></span>
+                <p>Inclusive education and therapy for people with disabilities — ADHD, Autism, Down Syndrome, Deaf, Mute, and Blind.</p>
+                <div class="footer-social">
+                    <a class="footer-soc">𝕏</a>
+                    <a class="footer-soc">in</a>
+                    <a class="footer-soc">f</a>
+                    <a class="footer-soc">📸</a>
+                </div>
+            </div>
+            <div class="footer-col">
+                <h4>Platform</h4>
+                <a href="/Home/Courses">Courses</a>
+                <a href="/Home/.html">Live Classes</a>
+                <a href="/Home/.html">Book Sessions</a>
+                <a href="/Home/SignLanguage">Sign Language</a>
+                <a href="/Home/Centers">Find Centers</a>
+            </div>
+            <div class="footer-col">
+                <h4>Community</h4>
+                <a href="/Home/Volunteering">Volunteer</a>
+                <a href="/Home/News">News & Events</a>
+                <a href="/Home/About">About Us</a>
+                <a href="/Home/Support">Support</a>
+            </div>
+            <div class="footer-col">
+                <h4>Accessibility</h4>
+                <a onclick="showToast('🔊 Text to Speech enabled!')">🔊 Text to Speech</a>
+                <a onclick="document.body.style.fontSize='19px'">A+ Larger text</a>
+                <a onclick="document.body.style.fontSize=''">A− Reset text</a>
+                <a>عربي Arabic</a>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <span>© 2025 BridgeUp. Built with 💛 for every learner.</span>
+            <div class="footer-a11y">
+                <button class="footer-a11y-btn" onclick="showToast('🔊 TTS enabled!')">🔊 TTS</button>
+                <button class="footer-a11y-btn" onclick="document.body.style.fontSize='19px'">A+</button>
+                <button class="footer-a11y-btn" onclick="document.body.style.fontSize=''">A−</button>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        window.addEventListener('mouseover', initLandbot, { once: true });
+        window.addEventListener('touchstart', initLandbot, { once: true });
+        var myLandbot;
+        function initLandbot() {
+          if (!myLandbot) {
+            var s = document.createElement('script');
+            s.type = "module"
+            s.async = true;
+            s.addEventListener('load', function() {
+              myLandbot = new Landbot.Popup({
+                configUrl: 'https://storage.googleapis.com/landbot.online/v3/H-3412628-ZG834BK3N10PWEIA/index.json',
+              });
+            });
+            s.src = 'https://cdn.landbot.io/landbot-3/landbot-3.0.0.mjs';
+            var x = document.getElementsByTagName('script')[0];
+            x.parentNode.insertBefore(s, x);
+          }
+        }
+    </script>
+    </body>
+    </html>
